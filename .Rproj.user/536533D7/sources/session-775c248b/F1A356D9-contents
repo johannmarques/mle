@@ -1,0 +1,123 @@
+\documentclass{homework}
+\author{Johann Marques Viana Freitas}
+\class{Econometria I: Prof. Nathalie Gimenes}
+\date{\today}
+\title{Lista Prática}
+\address{}
+
+%\graphicspath{{./media/}}
+\usepackage[portuguese]{babel}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{tcolorbox}
+
+\begin{document} \maketitle
+\SweaveOpts{concordance=TRUE}
+
+\question
+
+\section{Funções de Verossimilhança e Estimadores}
+
+\begin{enumerate}
+  \item A mistura de normais é caracterizada da seguinte forma:
+  \begin{align}
+    e_i \sim \begin{cases}
+                \mathrm{N}(\mu_1, \sigma_1^2), \text{com probabilidade } 1/2,\\
+                \mathrm{N}(\mu_2, \sigma_2^2), \text{com probabilidade } 1/2.
+              \end{cases}
+  \end{align}
+  
+  Para computar a densidade, podemos modelar $f(e_i) \sim \mathrm{Bern}(1/2)$ e calcular $\mathbb{E}_{\mathrm{Bern(1/2)}}\left[f(e_i)\right]$:
+  
+  \begin{align}
+    \mathbb{E}_{\mathrm{Bern(1/2)}}\left[f(e_i)\right] &=
+    \dfrac{1}{2}\times\left[\dfrac{1}{\sqrt{2\pi\sigma_1^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_1^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_1 \right)^2\right) +
+    \dfrac{1}{\sqrt{2\pi\sigma_2^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_2^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_2 \right)^2\right)\right].
+  \end{align}
+  
+  Podemos escrever a função de verossimilhança amostral como
+  
+  \begin{align}
+    L(\bm{\beta}|\mathbf{y}, \mathbf{x}; \mu_1, \mu_2, \sigma_1^2, \sigma_2^2) &= \prod_{i=1}^n\dfrac{1}{2}\times\left[\dfrac{1}{\sqrt{2\pi\sigma_1^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_1^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_1 \right)^2\right) +\right\\
+    &\left\dfrac{1}{\sqrt{2\pi\sigma_2^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_2^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_2 \right)^2\right)\right] \nonumber\\
+    &= \dfrac{1}{2^n}\prod_{i=1}^n\times\left[\dfrac{1}{\sqrt{2\pi\sigma_1^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_1^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_1 \right)^2\right) +\right\nonumber\\
+    &\left\dfrac{1}{\sqrt{2\pi\sigma_2^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_2^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_2 \right)^2\right)\right]. \nonumber
+  \end{align}
+  
+  Obtendo a log-verossimilhança:
+  
+  \begin{align}
+    l(\bm{\beta}|\mathbf{y}, \mathbf{x}; \mu_1, \mu_2, \sigma_1^2, \sigma_2^2) &= -n\mathrm{log}(2)+\sum^n_{i=1}\mathrm{log}\left(\dfrac{1}{\sqrt{2\pi\sigma_1^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_1^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_1 \right)^2\right) +\right\\
+    &\left\dfrac{1}{\sqrt{2\pi\sigma_2^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_2^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_2 \right)^2\right)\right)\nonumber.
+  \end{align}
+  
+  O Estimador de Máxima Verossimilhança é dado por
+  
+  \begin{align}
+    \hat{\bm{\beta}} &= \underset{\beta_0, \beta_1}{\mathrm{argmax}}\ l(\bm{\beta}|\mathbf{y}, \mathbf{x}; \mu_1, \mu_2, \sigma_1^2, \sigma_2^2).
+  \end{align}
+  
+  \item Função de verossimilhança amostral para $u$, com $u_i \sim \Gamma(a,b)$, definida para $u_i > 0$:
+  \begin{align}
+  L(\bm{\beta}|\mathbf{y}, \mathbf{x}; a, b) &= \prod_{i=1}^n{\dfrac{b^a}{\Gamma(a)}\left(y_i - \beta_1 - \beta_2 x_i\right)^{a-1}\mathrm{exp}\left(-b\left(y_i - \beta_1 - \beta_2 x_i\right)\right)}\\
+  &= \left(\dfrac{b^a}{\Gamma(a)}\right)^n\prod_{i=1}^n{\left(y_i - \beta_1 - \beta_2 x_i\right)^{a-1}}\mathrm{exp}\left(-b\sum_{i=1}^n\left(y_i - \beta_1 - \beta_2 x_i\right)\right).\nonumber
+  \end{align}
+  
+  Aplicando tranformação logarítmica
+  
+  \begin{align}
+  l(\bm{\beta}|\mathbf{y}, \mathbf{x}; a, b) &= n\mathrm{log}\left(\dfrac{b^a}{\Gamma(a)}\right) + (a-1)\sum_{i=1}^n{\mathrm{log}\left(y_i - \beta_1 - \beta_2 x_i\right)} -b\sum_{i=1}^n\left(y_i - \beta_1 - \beta_2 x_i\right).
+  \end{align}
+  
+  O Estimador de Máxima Verossimilhança é dado por
+  
+  \begin{align}
+    \hat{\bm{\beta}} &= \underset{\beta_0, \beta_1}{\mathrm{argmax}}\ l(\bm{\beta}|\mathbf{y}, \mathbf{x}; a, b).
+  \end{align}
+  
+  \item Sabemos que $v_i \sim \mathrm{Cauchy}(0,1) \sim t(\nu = 1)$, em que $\nu$ representa os graus de liberdade. Portanto, a função de verossimilhança amostral para $\mathbf{v}$, com $v_i \sim \mathrm{Cauchy}(0,1)$ pode ser escrita como:
+  
+  \begin{align}
+    L(\bm{\beta}|\mathbf{y}, \mathbf{x}; \nu) &= \prod_{i=1}^n\dfrac{\Gamma\left(\dfrac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\Gamma\left(\dfrac{\nu}{2}\right)}\left(1 + \dfrac{\left(y_i - \beta_1 - \beta_2 x_i\right)^2}{\nu}\right)\nonumber\\
+    &= \left[\dfrac{\Gamma\left(\dfrac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\Gamma\left(\dfrac{\nu}{2}\right)}\right]^n\prod_{i=1}^n\left(1 + \dfrac{\left(y_i - \beta_1 - \beta_2 x_i\right)^2}{\nu}\right).
+  \end{align}
+  
+  A log-verossimilhança, por sua vez,
+  
+  \begin{align}
+    l(\bm{\beta}|\mathbf{y}, \mathbf{x}; \nu) &= n\left[\mathrm{log}\left(\Gamma\left(\dfrac{\nu+1}{2}\right)\right)-
+    \mathrm{log}\left(\sqrt{\nu\pi}\right)-
+    \mathrm{log}\left(\Gamma\left(\dfrac{\nu}{2}\right)\right)\right] + \sum_{i=1}^n\mathrm{log}\left(1 + \dfrac{\left(y_i - \beta_1 - \beta_2 x_i\right)^2}{\nu}\right).
+  \end{align}
+  
+  O Estimador de Máxima Verossimilhança é dado por
+  
+  \begin{align}
+    \hat{\bm{\beta}} &= \underset{\beta_0, \beta_1}{\mathrm{argmax}}\ l(\bm{\beta}|\mathbf{y}, \mathbf{x}; \nu).
+  \end{align}
+
+\end{enumerate}
+
+\section{Distribuições Assintóticas}
+
+Vide \cite{greene2011econometric}, Teorema 14.1.M2, \textit{se são satisfeitas condições de regularidade},
+
+\begin{align}
+  \hat{\bm{\theta}} \xrightarrow{d} \mathrm{N}\left(\bm{\theta}_0, \{\mathbf{I(\bm{\theta}_0)}\}^{-1}),
+\end{align}
+
+em que $\hat{\bm{\theta}}$ é o estimador de Máxima Verossimilhança de $\bm{\theta}_0$, e $\mathbf{I(\bm{\theta}_0)} = -\mathbb{E}\left[\dfrac{\partial^2\mathrm{log}(L)}{\partial\bm{\theta}_0\partial\bm{\theta}_0^'}\right].
+
+\begin{tcolorbox}
+{\hfill\textbf{Condições de regularidade}\hfill}
+
+blá blá blá
+
+\end{tcolorbox}
+
+% citations
+\bibliographystyle{plain}
+\bibliography{citations}
+
+\end{document}
