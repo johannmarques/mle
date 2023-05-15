@@ -4,6 +4,11 @@
 WH~Greene.
 \newblock Econometric analysis, 7th. saddle river, 2011.
 
+\bibitem{nelder1965simplex}
+John~A Nelder and Roger Mead.
+\newblock A simplex method for function minimization.
+\newblock {\em The computer journal}, 7(4):308--313, 1965.
+
 \bibitem{rcore}
 {R Core Team}.
 \newblock {\em R: A Language and Environment for Statistical Computing}.

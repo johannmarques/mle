@@ -54,6 +54,8 @@ ggplot() +
                  alpha = .8, position = 'identity', binwidth = 0.25, color = 'black', fill = purple_rain_colors[3]) +
   labs(fill = '', x = '', y = '')
 
+tibble(e, e1, e2)
+
 # Simulating model 2
 # Since a and b were not specified, I'm considering the following
 
@@ -97,22 +99,30 @@ l_norm0 <- function(theta, y, x){
 # Model 1
 
 # Initial condition
-init_norm = c(coef(
-  lm(y_1 ~ x)
-), sigma2 = ols_mod$sigma^2) # Adding OLS estimate for \sigma^2
+init_norm = lm(y_1 ~ x) %>%
+  {c(coef(.), sigma2 = summary(.)$sigma^2)} # Adding OLS estimate for \sigma^2
 
-optim(par = init_norm,
+mod1_norm <- optim(par = init_norm,
       fn = function(theta){-l_norm0(theta = theta, y = y_1, x=x)})
 
 # Model 2
 
-optim(par = init_norm,
-      fn = function(theta){-l_norm0(theta = theta, y = y_2, x=x)})
+# Initial condition
 
+init_gamma = lm(y_2 ~ x) %>%
+  {c(coef(.), sigma2 = summary(.)$sigma^2)}
+
+mod2_norm <- optim(par = init_gamma,
+      fn = function(theta){-l_norm0(theta = theta, y = y_2, x=x)})
 
 # Model 3
 
-optim(par = init_norm,
+# Initial condition
+
+init_t = lm(y_3 ~ x) %>%
+  {c(coef(.), sigma2 = summary(.)$sigma^2)}
+
+mod3_norm <- optim(par = init_t,
       fn = function(theta){-l_norm0(theta = theta, y = y_3, x=x)})
 
 # Exercise 4
@@ -121,12 +131,17 @@ optim(par = init_norm,
 
 # Objective funciton
 l_normmix <- function(theta, mu1, mu2, sigma2_1, sigma2_2, y, x){
-  (length(y)/2)*log((2/(pi*(sigma2_1 + sigma2_2)))) + sum(-2/(sigma2_1+sigma2_2)*(y - theta[1] - theta[2]*x - (mu1+mu2)/2)^2)
+  -length(y)*log(2)+ sum(log(1/sqrt(2*pi*sigma2_1)*
+                               exp(-1/(2*sigma2_1)*
+                                     (y - theta[1] - theta[2] * x - mu1)^2) +
+                           1/sqrt(2*pi*sigma2_2)*
+                           exp(-1/(2*sigma2_2) *
+                                 (y - theta[1] - theta[2] * x - mu2)^2)))
 }
 
 # Initial condition previously defined #
 
-optim(par = init_norm[-3],
+mod1_true <- optim(par = init_norm[-3],
       fn = function(theta){-l_normmix(theta = theta, mu1 = 2, mu2 = 1, sigma2_1 = 1.5, sigma2_2 = 3, y = y_1, x=x)})
 
 # Model 2
@@ -140,16 +155,12 @@ l_gamma <- function(theta, a, b, y, x){
     }
 }
 
-# Initial condition
-
-init_gamma = coef(
-  lm(y_2 ~ x)
-)
+# Initial condition previously defined #
 
 # The objective function evaluated at the initial condition returns an error.
 # So I'll be subtracting 1
 
-optim(par = init_gamma-1,
+mod2_true <- optim(par = init_gamma[-3]-1,
       fn = function(theta){-l_gamma(theta = theta, a = 1.75, b = .8, y = y_2, x = x)})
 
 # Model 3
@@ -160,12 +171,36 @@ l_t <- function(theta, y, x){
     (theta[3]+1)/2*sum(log(1 + ((y - theta[1] - theta[2]*x)^2)/theta[3]))
 }
 
-# Initial condition
-
-init_t = c(coef(
+init_t2 = c(coef(
   lm(y_3 ~ x)
 ), df = 0.0001) # Setting a pretty small degree of freedom as an initial guess
 
-optim(par = init_t,
+mod3_true <- optim(par = init_t2,
       fn = function(theta){-l_t(theta = theta, y = y_3, x=x)})
 
+plot_curves <- function(...){
+  ggplot() +
+    geom_point(aes(y =eval(parse(text = paste0('y_', ...))), x=x), alpha = .5, color = purple_rain_colors[1]) +
+    geom_abline(slope = beta[2],
+                intercept = beta[1],
+                linetype = 'F1',
+                color = 'grey',
+                linewidth = 1) +
+    geom_abline(slope = eval(parse(text = paste0('mod', ..., '_true$par[2]'))),
+                intercept = eval(parse(text =paste0('mod', ..., '_true$par[1]'))),
+                linetype = 'dashed',
+                color = purple_rain_colors[1],
+                linewidth = 1,
+                alpha = .75) +
+    geom_abline(slope = eval(parse(text = paste0('mod', ..., '_norm$par[2]'))),
+                intercept = eval(parse(text = paste0('mod', ..., '_norm$par[1]'))),
+                linetype = 'solid',
+                color = purple_rain_colors[1],
+                linewidth = 1,
+                alpha = .75) +
+    labs(x = 'x', y = 'y')
+}
+
+invoke_map(.f = plot_curves, .x = 1:3)
+
+eval(parse(text = paste0('y_', 1)))

@@ -3,7 +3,7 @@
     "path": "/media/johan/AEA0EC4FA0EC2017/Users/johan/Documents/Masters/2023_1/Econometrics/Practice/report/main.R",
     "project_path": "main.R",
     "type": "r_source",
-    "hash": "3459603949",
+    "hash": "232160449",
     "contents": "",
     "dirty": false,
     "created": 1684095236910.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "81,0",
-        "scrollLine": "76"
+        "cursorPosition": "0,18",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1684104589,
+    "lastKnownWriteTime": 1684121188,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1684104589566,
+    "last_content_update": 1684121188702,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -174,9 +174,11 @@ em que $\hat{\bm{\theta}}$ é o estimador de Máxima Verossimilhança de $\bm{\t
 
 \end{enumerate}
 
-\renewcommand{\labelenumi}{\arabic{enumi}}
+
 
 \end{tcolorbox}
+
+\renewcommand{\labelenumi}{\arabic{enumi})}
 
 \question
 
@@ -291,36 +293,321 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
 
 \begin{kframe}
 \begin{alltt}
-\hlkwd{print}\hlstd{(}\hlkwd{xtable}\hlstd{(}\hlkwd{map_df}\hlstd{(}\hlkwd{list}\hlstd{(x, e1, e2, y_1, u, y_2, v, y_3),} \hlopt{~}\hlkwd{summary}\hlstd{(.x))} \hlopt{%>%}
+\hlkwd{print}\hlstd{(}\hlkwd{xtable}\hlstd{(}\hlkwd{map_df}\hlstd{(}\hlkwd{list}\hlstd{(x, e1, e2, e, y_1, u, y_2, v, y_3),} \hlopt{~}\hlkwd{c}\hlstd{(}\hlkwd{summary}\hlstd{(.x),} \hlkwc{Var.} \hlstd{=} \hlkwd{var}\hlstd{(.x)))} \hlopt{%>%}
                \hlstd{\{}\hlkwd{cbind}\hlstd{(}\hlkwd{data.frame}\hlstd{(}\hlstr{'Variable'} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"$\textbackslash{}\textbackslash{}bar\{x\}$"}\hlstd{,} \hlstr{"$\textbackslash{}\textbackslash{}bar\{e\}_1$"}\hlstd{,}
-                                                \hlstr{"$\textbackslash{}\textbackslash{}bar\{e\}_2$"}\hlstd{,} \hlstr{"$\textbackslash{}\textbackslash{}bar\{y\}_1$"}\hlstd{,}
-                                                \hlstr{"$\textbackslash{}\textbackslash{}bar\{u\}$"}\hlstd{,} \hlstr{"$\textbackslash{}\textbackslash{}bar\{y\}_2$"}\hlstd{,}
-                                                \hlstr{"$\textbackslash{}\textbackslash{}bar\{v\}$"}\hlstd{,} \hlstr{"$\textbackslash{}\textbackslash{}bar\{y\}_3$"}\hlstd{)),}
-                      \hlstd{.)\},}
-             \hlstd{,}
+                                                \hlstr{"$\textbackslash{}\textbackslash{}bar\{e\}_2$"}\hlstd{,} \hlstr{"$\textbackslash{}\textbackslash{}bar\{e\}$"}\hlstd{,}
+                                                \hlstr{"$\textbackslash{}\textbackslash{}bar\{y\}_1$"}\hlstd{,} \hlstr{"$\textbackslash{}\textbackslash{}bar\{u\}$"}\hlstd{,}
+                                                \hlstr{"$\textbackslash{}\textbackslash{}bar\{y\}_2$"}\hlstd{,} \hlstr{"$\textbackslash{}\textbackslash{}bar\{v\}$"}\hlstd{,}
+                                                \hlstr{"$\textbackslash{}\textbackslash{}bar\{y\}_3$"}\hlstd{)),.)\},}
       \hlkwc{caption} \hlstd{=} \hlstr{'Estatísticas descritivas'}\hlstd{),}
       \hlkwc{sanitize.text.function}\hlstd{=}\hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{)\{x\},} \hlkwc{include.rownames} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 \end{alltt}
 \end{kframe}% latex table generated in R 4.1.2 by xtable 1.8-4 package
-% Sun May 14 20:38:18 2023
+% Mon May 15 00:23:36 2023
 \begin{table}[ht]
 \centering
-\begin{tabular}{lrrrrrr}
+\begin{tabular}{lrrrrrrr}
   \hline
-Variable & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\ 
+Variable & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. & Var. \\ 
   \hline
-$\bar{x}$ & 1.81 & 4.27 & 4.97 & 4.98 & 5.69 & 8.46 \\ 
-  $\bar{e}_1$ & -1.95 & 1.19 & 2.00 & 2.01 & 2.87 & 5.88 \\ 
-  $\bar{e}_2$ & -5.83 & -0.19 & 1.07 & 0.99 & 2.18 & 6.76 \\ 
-  $\bar{y}_1$ & 1.19 & 6.41 & 7.63 & 7.56 & 8.76 & 12.92 \\ 
-  $\bar{u}$ & 0.03 & 0.99 & 1.76 & 2.18 & 2.94 & 13.91 \\ 
-  $\bar{y}_2$ & 4.68 & 7.00 & 7.96 & 8.27 & 9.18 & 21.09 \\ 
-  $\bar{v}$ & -2163.94 & -1.01 & -0.01 & 1.48 & 0.98 & 5489.95 \\ 
-  $\bar{y}_3$ & -2158.61 & 4.84 & 6.05 & 7.57 & 7.33 & 5495.47 \\ 
+$\bar{x}$ & 1.81 & 4.27 & 4.97 & 4.98 & 5.69 & 8.46 & 1.00 \\ 
+  $\bar{e}_1$ & -1.95 & 1.19 & 2.00 & 2.01 & 2.87 & 5.88 & 1.53 \\ 
+  $\bar{e}_2$ & -5.83 & -0.19 & 1.07 & 0.99 & 2.18 & 6.76 & 3.03 \\ 
+  $\bar{e}$ & -5.83 & 0.47 & 1.58 & 1.47 & 2.59 & 5.90 & 2.50 \\ 
+  $\bar{y}_1$ & 1.19 & 6.41 & 7.63 & 7.56 & 8.76 & 12.92 & 3.03 \\ 
+  $\bar{u}$ & 0.03 & 0.99 & 1.76 & 2.18 & 2.94 & 13.91 & 2.82 \\ 
+  $\bar{y}_2$ & 4.68 & 7.00 & 7.96 & 8.27 & 9.18 & 21.09 & 3.34 \\ 
+  $\bar{v}$ & -2163.94 & -1.01 & -0.01 & 1.48 & 0.98 & 5489.95 & 17973.79 \\ 
+  $\bar{y}_3$ & -2158.61 & 4.84 & 6.05 & 7.57 & 7.33 & 5495.47 & 17972.39 \\ 
    \hline
 \end{tabular}
 \caption{Estatísticas descritivas} 
 \end{table}
+
+
+Os momentos teóricos, por sua vez, são os seguintes:
+
+\begin{align}
+  \mathbb{E}\left[e_i\right] &= p\mathbb{E}\left[e_{1i}\right] + (1-p)\mathbb{E}\left[e_{2i}\right] = 1.5\\
+  \mathbb{V}\left[e_i\right] &= p(\sigma^2_1 + \mu_1^2) + (1-p)(\sigma^2_2 + \mu_2^2) - [p\mu_1 + (1-p)\mu_2]^2 = 2.5\\
+  \mathbb{E}\left[y_{1i}\right] &= \beta_0 + \beta_1 \mathbb{E}\left[x_i\right] + \mathbb{E}\left[e_i\right] = 7.6\\
+  \mathbb{V}\left[y_{1i}\right] &= \mathbb{V}\left[\beta_1x_i + e_i\right] = \beta_1^2\mathbb{V}\left[x_{i}\right] + \mathbb{V}\left[e_{i}\right] = 3.0625
+\end{align}
+
+As estimativas observadas para média e variância amostral de $y_{1}$ são coerentes com a derivação teórica.
+
+\begin{align}
+  \mathbb{E}\left[u_i\right] &= \dfrac{a}{b} = 2.1875\\
+  \mathbb{V}\left[u_i\right] &= \dfrac{a}{b} = 2.734375\\
+  \mathbb{E}\left[y_{2i}\right] &= \beta_0 + \beta_1 \mathbb{E}\left[x_i\right] + \mathbb{E}\left[u_i\right] = 8.2875\\
+  \mathbb{V}\left[y_{2i}\right] &= \mathbb{V}\left[\beta_1x_i + u_i\right] = \beta_1^2\mathbb{V}\left[x_{i}\right] + \mathbb{V}\left[u_{i}\right] = 3.296875
+\end{align}
+
+As estimativas observadas para média e variância amostral de $y_{2}$ não diferem substancialmente dos momentos teóricos.
+
+A esperança e a variância para $v_i$ não estão definidas, portanto, também não estão para $y_{3i}$. Como sabemos que a distribuição de $v_i$ é simétrica, bem como a de $x_i$, sugere-se intuitivamente utilizar a mediana como uma medida de centralidade.
+
+\question
+
+\begin{enumerate}
+
+\item 
+
+\item Definindo a log-verossimilhança amostral, que será a função objetivo do problema de otimização, como função de $\bm{\beta}$ e $\sigma^2$:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Exercise 3.2}
+\hlcom{# I'm assuming y - Xb ~ N(0, sigma^2)}
+\hlcom{# For the remaining exercises, I'll be using OLS estimates as initial conditions}
+
+\hlcom{# Objective funciton}
+\hlstd{l_norm0} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{,} \hlkwc{y}\hlstd{,} \hlkwc{x}\hlstd{)\{}
+  \hlopt{-}\hlkwd{length}\hlstd{(y)}\hlopt{/}\hlnum{2}\hlopt{*}\hlkwd{log}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{theta[}\hlnum{3}\hlstd{])} \hlopt{+} \hlkwd{sum}\hlstd{(}\hlopt{-}\hlnum{1}\hlopt{/}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{theta[}\hlnum{3}\hlstd{])}\hlopt{*}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x)}\hlopt{^}\hlnum{2}\hlstd{)}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Iremos utilizar o algoritmo de Nelder-Mead \cite{nelder1965simplex} para obter uma solução. Para os três modelos será utilizada como condição inicial a estimativa por Mínimos Quadrados Ordinários.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Model 1}
+
+\hlcom{# Initial condition}
+\hlstd{init_norm} \hlkwb{=} \hlkwd{lm}\hlstd{(y_1} \hlopt{~} \hlstd{x)} \hlopt{%>%}
+  \hlstd{\{}\hlkwd{c}\hlstd{(}\hlkwd{coef}\hlstd{(.),} \hlkwc{sigma2} \hlstd{=} \hlkwd{summary}\hlstd{(.)}\hlopt{$}\hlstd{sigma}\hlopt{^}\hlnum{2}\hlstd{)\}} \hlcom{# Adding OLS estimate for \textbackslash{}sigma^2}
+
+\hlstd{mod1_norm} \hlkwb{<-} \hlkwd{optim}\hlstd{(}\hlkwc{par} \hlstd{= init_norm,}
+      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_norm0}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{y} \hlstd{= y_1,} \hlkwc{x}\hlstd{=x)\})}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{print}\hlstd{(mod1_norm}\hlopt{$}\hlstd{par)}
+\end{alltt}
+\begin{verbatim}
+## (Intercept)           x      sigma2 
+##   3.9487238   0.7250645   2.5030414
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Model 2}
+
+\hlcom{# Initial condition}
+
+\hlstd{init_gamma} \hlkwb{=} \hlkwd{lm}\hlstd{(y_2} \hlopt{~} \hlstd{x)} \hlopt{%>%}
+  \hlstd{\{}\hlkwd{c}\hlstd{(}\hlkwd{coef}\hlstd{(.),} \hlkwc{sigma2} \hlstd{=} \hlkwd{summary}\hlstd{(.)}\hlopt{$}\hlstd{sigma}\hlopt{^}\hlnum{2}\hlstd{)\}}
+
+\hlstd{mod2_norm} \hlkwb{<-} \hlkwd{optim}\hlstd{(}\hlkwc{par} \hlstd{= init_gamma,}
+      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_norm0}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{y} \hlstd{= y_2,} \hlkwc{x}\hlstd{=x)\})}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{print}\hlstd{(mod2_norm}\hlopt{$}\hlstd{par)}
+\end{alltt}
+\begin{verbatim}
+## (Intercept)           x      sigma2 
+##    4.644255    0.727031    2.815482
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Model 3}
+
+\hlcom{# Initial condition}
+
+\hlstd{init_t} \hlkwb{=} \hlkwd{lm}\hlstd{(y_3} \hlopt{~} \hlstd{x)} \hlopt{%>%}
+  \hlstd{\{}\hlkwd{c}\hlstd{(}\hlkwd{coef}\hlstd{(.),} \hlkwc{sigma2} \hlstd{=} \hlkwd{summary}\hlstd{(.)}\hlopt{$}\hlstd{sigma}\hlopt{^}\hlnum{2}\hlstd{)\}}
+
+\hlstd{mod3_norm} \hlkwb{<-} \hlkwd{optim}\hlstd{(}\hlkwc{par} \hlstd{= init_t,}
+      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_norm0}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{y} \hlstd{= y_3,} \hlkwc{x}\hlstd{=x)\})}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{print}\hlstd{(mod3_norm}\hlopt{$}\hlstd{par)}
+\end{alltt}
+\begin{verbatim}
+##   (Intercept)             x        sigma2 
+##    10.3833465    -0.5662194 17957.6199485
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\item
+
+\end{enumerate}
+
+\question
+
+\begin{enumerate}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Exercise 4}
+
+\hlcom{# Model 1}
+
+\hlcom{# Objective funciton}
+\hlstd{l_normmix} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{,} \hlkwc{mu1}\hlstd{,} \hlkwc{mu2}\hlstd{,} \hlkwc{sigma2_1}\hlstd{,} \hlkwc{sigma2_2}\hlstd{,} \hlkwc{y}\hlstd{,} \hlkwc{x}\hlstd{)\{}
+  \hlopt{-}\hlkwd{length}\hlstd{(y)}\hlopt{*}\hlkwd{log}\hlstd{(}\hlnum{2}\hlstd{)}\hlopt{+} \hlkwd{sum}\hlstd{(}\hlkwd{log}\hlstd{(}\hlnum{1}\hlopt{/}\hlkwd{sqrt}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{sigma2_1)}\hlopt{*}
+                               \hlkwd{exp}\hlstd{(}\hlopt{-}\hlnum{1}\hlopt{/}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{sigma2_1)}\hlopt{*}
+                                     \hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]} \hlopt{*} \hlstd{x} \hlopt{-} \hlstd{mu1)}\hlopt{^}\hlnum{2}\hlstd{)} \hlopt{+}
+                           \hlnum{1}\hlopt{/}\hlkwd{sqrt}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{sigma2_2)}\hlopt{*}
+                           \hlkwd{exp}\hlstd{(}\hlopt{-}\hlnum{1}\hlopt{/}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{sigma2_2)} \hlopt{*}
+                                 \hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]} \hlopt{*} \hlstd{x} \hlopt{-} \hlstd{mu2)}\hlopt{^}\hlnum{2}\hlstd{)))}
+\hlstd{\}}
+
+\hlcom{# Initial condition previously defined #}
+
+\hlstd{mod1_true} \hlkwb{<-} \hlkwd{optim}\hlstd{(}\hlkwc{par} \hlstd{= init_norm[}\hlopt{-}\hlnum{3}\hlstd{],}
+      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_normmix}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{mu1} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{mu2} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{sigma2_1} \hlstd{=} \hlnum{1.5}\hlstd{,} \hlkwc{sigma2_2} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{y} \hlstd{= y_1,} \hlkwc{x}\hlstd{=x)\})}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{print}\hlstd{(mod1_true}\hlopt{$}\hlstd{par)}
+\end{alltt}
+\begin{verbatim}
+## (Intercept)           x 
+##   2.4391715   0.7283436
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Model 2}
+
+\hlcom{# Objective funciton}
+\hlstd{l_gamma} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{,} \hlkwc{a}\hlstd{,} \hlkwc{b}\hlstd{,} \hlkwc{y}\hlstd{,} \hlkwc{x}\hlstd{)\{}
+  \hlkwa{if}\hlstd{(}\hlkwd{prod}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x} \hlopt{>} \hlnum{0}\hlstd{))\{} \hlcom{# Checking whether u_i > 0 \textbackslash{}forall i = 1, ..., n}
+    \hlkwd{return}\hlstd{(}\hlkwd{length}\hlstd{(y)}\hlopt{*}\hlkwd{log}\hlstd{(b}\hlopt{^}\hlstd{a}\hlopt{/}\hlkwd{gamma}\hlstd{(a))} \hlopt{+} \hlstd{(a}\hlopt{-}\hlnum{1}\hlstd{)}\hlopt{*}\hlkwd{sum}\hlstd{(}\hlkwd{log}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x))} \hlopt{-} \hlstd{b}\hlopt{*}\hlkwd{sum}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]} \hlopt{*} \hlstd{x))}
+  \hlstd{\}}\hlkwa{else}\hlstd{\{}
+    \hlkwd{return}\hlstd{(}\hlopt{-}\hlnum{Inf}\hlstd{)}
+    \hlstd{\}}
+\hlstd{\}}
+
+\hlcom{# Initial condition previously defined #}
+
+\hlcom{# The objective function evaluated at the initial condition returns an error.}
+\hlcom{# So I'll be subtracting 1}
+
+\hlstd{mod2_true} \hlkwb{<-} \hlkwd{optim}\hlstd{(}\hlkwc{par} \hlstd{= init_gamma[}\hlopt{-}\hlnum{3}\hlstd{]}\hlopt{-}\hlnum{1}\hlstd{,}
+      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_gamma}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{a} \hlstd{=} \hlnum{1.75}\hlstd{,} \hlkwc{b} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{y} \hlstd{= y_2,} \hlkwc{x} \hlstd{= x)\})}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{print}\hlstd{(mod2_true}\hlopt{$}\hlstd{par)}
+\end{alltt}
+\begin{verbatim}
+## (Intercept)           x 
+##    2.343295    0.751715
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Model 3}
+
+\hlcom{# Objective funciton}
+\hlstd{l_t} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{,} \hlkwc{y}\hlstd{,} \hlkwc{x}\hlstd{)\{}
+  \hlkwd{length}\hlstd{(y)}\hlopt{*}\hlstd{(}\hlkwd{log}\hlstd{(}\hlkwd{gamma}\hlstd{((theta[}\hlnum{3}\hlstd{]}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{/}\hlnum{2}\hlstd{))} \hlopt{-} \hlkwd{log}\hlstd{(}\hlkwd{sqrt}\hlstd{(theta[}\hlnum{3}\hlstd{]}\hlopt{*}\hlstd{pi))} \hlopt{-} \hlkwd{log}\hlstd{(}\hlkwd{gamma}\hlstd{(theta[}\hlnum{3}\hlstd{]}\hlopt{/}\hlnum{2}\hlstd{)))} \hlopt{-}
+    \hlstd{(theta[}\hlnum{3}\hlstd{]}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{/}\hlnum{2}\hlopt{*}\hlkwd{sum}\hlstd{(}\hlkwd{log}\hlstd{(}\hlnum{1} \hlopt{+} \hlstd{((y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x)}\hlopt{^}\hlnum{2}\hlstd{)}\hlopt{/}\hlstd{theta[}\hlnum{3}\hlstd{]))}
+\hlstd{\}}
+
+\hlstd{init_t2} \hlkwb{=} \hlkwd{c}\hlstd{(}\hlkwd{coef}\hlstd{(}
+  \hlkwd{lm}\hlstd{(y_3} \hlopt{~} \hlstd{x)}
+\hlstd{),} \hlkwc{df} \hlstd{=} \hlnum{0.0001}\hlstd{)} \hlcom{# Setting a pretty small degree of freedom as an initial guess}
+
+\hlstd{mod3_true} \hlkwb{<-} \hlkwd{optim}\hlstd{(}\hlkwc{par} \hlstd{= init_t2,}
+      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_t}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{y} \hlstd{= y_3,} \hlkwc{x}\hlstd{=x)\})}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{print}\hlstd{(mod3_true}\hlopt{$}\hlstd{par)}
+\end{alltt}
+\begin{verbatim}
+## (Intercept)           x          df 
+##   2.3474134   0.7512420   0.9799201
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{plot_curves} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{...}\hlstd{)\{}
+  \hlkwd{ggplot}\hlstd{()} \hlopt{+}
+    \hlkwd{geom_point}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{y} \hlstd{=}\hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{'y_'}\hlstd{, ...))),} \hlkwc{x}\hlstd{=x),} \hlkwc{alpha} \hlstd{=} \hlnum{.5}\hlstd{,} \hlkwc{color} \hlstd{= purple_rain_colors[}\hlnum{1}\hlstd{])} \hlopt{+}
+    \hlkwd{geom_abline}\hlstd{(}\hlkwc{slope} \hlstd{= beta[}\hlnum{2}\hlstd{],}
+                \hlkwc{intercept} \hlstd{= beta[}\hlnum{1}\hlstd{],}
+                \hlkwc{linetype} \hlstd{=} \hlstr{'F1'}\hlstd{,}
+                \hlkwc{color} \hlstd{=} \hlstr{'grey'}\hlstd{,}
+                \hlkwc{linewidth} \hlstd{=} \hlnum{1}\hlstd{)} \hlopt{+}
+    \hlkwd{geom_abline}\hlstd{(}\hlkwc{slope} \hlstd{=} \hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{'mod'}\hlstd{, ...,} \hlstr{'_true$par[2]'}\hlstd{))),}
+                \hlkwc{intercept} \hlstd{=} \hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=}\hlkwd{paste0}\hlstd{(}\hlstr{'mod'}\hlstd{, ...,} \hlstr{'_true$par[1]'}\hlstd{))),}
+                \hlkwc{linetype} \hlstd{=} \hlstr{'dashed'}\hlstd{,}
+                \hlkwc{color} \hlstd{= purple_rain_colors[}\hlnum{1}\hlstd{],}
+                \hlkwc{linewidth} \hlstd{=} \hlnum{1}\hlstd{,}
+                \hlkwc{alpha} \hlstd{=} \hlnum{.75}\hlstd{)} \hlopt{+}
+    \hlkwd{geom_abline}\hlstd{(}\hlkwc{slope} \hlstd{=} \hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{'mod'}\hlstd{, ...,} \hlstr{'_norm$par[2]'}\hlstd{))),}
+                \hlkwc{intercept} \hlstd{=} \hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{'mod'}\hlstd{, ...,} \hlstr{'_norm$par[1]'}\hlstd{))),}
+                \hlkwc{linetype} \hlstd{=} \hlstr{'solid'}\hlstd{,}
+                \hlkwc{color} \hlstd{= purple_rain_colors[}\hlnum{1}\hlstd{],}
+                \hlkwc{linewidth} \hlstd{=} \hlnum{1}\hlstd{,}
+                \hlkwc{alpha} \hlstd{=} \hlnum{.75}\hlstd{)} \hlopt{+}
+    \hlkwd{labs}\hlstd{(}\hlkwc{x} \hlstd{=} \hlstr{"x"}\hlstd{,} \hlkwc{y} \hlstd{=} \hlstr{"y"}\hlstd{)}
+\hlstd{\}}
+
+\hlkwd{invoke_map}\hlstd{(}\hlkwc{.f} \hlstd{= plot_curves,} \hlkwc{.x} \hlstd{=} \hlnum{1}\hlopt{:}\hlnum{3}\hlstd{)}
+\end{alltt}
+\end{kframe}\begin{figure}
+\subfloat[Modelo 1\label{fig:curves-1}]{\includegraphics[width=.33333333\linewidth]{figure/curves-1} }
+\subfloat[Modelo 2\label{fig:curves-2}]{\includegraphics[width=.33333333\linewidth]{figure/curves-2} }
+\subfloat[Modelo 3\label{fig:curves-3}]{\includegraphics[width=.33333333\linewidth]{figure/curves-3} }\caption[Comparativo]{Comparativo}\label{fig:curves}
+\end{figure}
+
+\end{knitrout}
+
+
+\end{enumerate}
 
 
 % citations

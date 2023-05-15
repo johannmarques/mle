@@ -124,9 +124,11 @@ em que $\hat{\bm{\theta}}$ é o estimador de Máxima Verossimilhança de $\bm{\t
 
 \end{enumerate}
 
-\renewcommand{\labelenumi}{\arabic{enumi}}
+
 
 \end{tcolorbox}
+
+\renewcommand{\labelenumi}{\arabic{enumi})}
 
 \question
 
@@ -233,18 +235,215 @@ y_3 = beta[1] + beta[2] * x + v
 \section{Estatísticas descritivas}
 
 <<results='asis'>>=
-print(xtable(map_df(list(x, e1, e2, y_1, u, y_2, v, y_3), ~summary(.x)) %>%
+
+print(xtable(map_df(list(x, e1, e2, e, y_1, u, y_2, v, y_3), ~c(summary(.x), Var. = var(.x))) %>%
                {cbind(data.frame('Variable' = c("$\\bar{x}$", "$\\bar{e}_1$",
-                                                "$\\bar{e}_2$", "$\\bar{y}_1$",
-                                                "$\\bar{u}$", "$\\bar{y}_2$",
-                                                "$\\bar{v}$", "$\\bar{y}_3$")),
-                      .)},
-             ,
+                                                "$\\bar{e}_2$", "$\\bar{e}$",
+                                                "$\\bar{y}_1$", "$\\bar{u}$",
+                                                "$\\bar{y}_2$", "$\\bar{v}$",
+                                                "$\\bar{y}_3$")),.)},
       caption = 'Estatísticas descritivas'),
       sanitize.text.function=function(x){x}, include.rownames = FALSE)
 @
 
-Os momentos teóricos, por sua vez, são
+Os momentos teóricos, por sua vez, são os seguintes:
+
+\begin{align}
+  \mathbb{E}\left[e_i\right] &= p\mathbb{E}\left[e_{1i}\right] + (1-p)\mathbb{E}\left[e_{2i}\right] = 1.5\\
+  \mathbb{V}\left[e_i\right] &= p(\sigma^2_1 + \mu_1^2) + (1-p)(\sigma^2_2 + \mu_2^2) - [p\mu_1 + (1-p)\mu_2]^2 = 2.5\\
+  \mathbb{E}\left[y_{1i}\right] &= \beta_0 + \beta_1 \mathbb{E}\left[x_i\right] + \mathbb{E}\left[e_i\right] = 7.6\\
+  \mathbb{V}\left[y_{1i}\right] &= \mathbb{V}\left[\beta_1x_i + e_i\right] = \beta_1^2\mathbb{V}\left[x_{i}\right] + \mathbb{V}\left[e_{i}\right] = 3.0625
+\end{align}
+
+As estimativas observadas para média e variância amostral de $y_{1}$ são coerentes com a derivação teórica.
+
+\begin{align}
+  \mathbb{E}\left[u_i\right] &= \dfrac{a}{b} = 2.1875\\
+  \mathbb{V}\left[u_i\right] &= \dfrac{a}{b} = 2.734375\\
+  \mathbb{E}\left[y_{2i}\right] &= \beta_0 + \beta_1 \mathbb{E}\left[x_i\right] + \mathbb{E}\left[u_i\right] = 8.2875\\
+  \mathbb{V}\left[y_{2i}\right] &= \mathbb{V}\left[\beta_1x_i + u_i\right] = \beta_1^2\mathbb{V}\left[x_{i}\right] + \mathbb{V}\left[u_{i}\right] = 3.296875
+\end{align}
+
+As estimativas observadas para média e variância amostral de $y_{2}$ não diferem substancialmente dos momentos teóricos.
+
+A esperança e a variância para $v_i$ não estão definidas, portanto, também não estão para $y_{3i}$. Como sabemos que a distribuição de $v_i$ é simétrica, bem como a de $x_i$, sugere-se intuitivamente utilizar a mediana como uma medida de centralidade.
+
+\question
+
+\begin{enumerate}
+
+\item 
+
+\item Definindo a log-verossimilhança amostral, que será a função objetivo do problema de otimização, como função de $\bm{\beta}$ e $\sigma^2$:
+
+<<>>=
+# Exercise 3.2
+# I'm assuming y - Xb ~ N(0, sigma^2)
+# For the remaining exercises, I'll be using OLS estimates as initial conditions
+
+# Objective funciton
+l_norm0 <- function(theta, y, x){
+  -length(y)/2*log(2*pi*theta[3]) + sum(-1/(2*theta[3])*(y - theta[1] - theta[2]*x)^2)
+}
+@
+
+Iremos utilizar o algoritmo de Nelder-Mead \cite{nelder1965simplex} para obter uma solução. Para os três modelos será utilizada como condição inicial a estimativa por Mínimos Quadrados Ordinários.
+
+<<>>=
+# Model 1
+
+# Initial condition
+init_norm = lm(y_1 ~ x) %>%
+  {c(coef(.), sigma2 = summary(.)$sigma^2)} # Adding OLS estimate for \sigma^2
+
+mod1_norm <- optim(par = init_norm,
+      fn = function(theta){-l_norm0(theta = theta, y = y_1, x=x)})
+@
+
+<<results='markup'>>=
+print(mod1_norm$par)
+@
+
+<<>>=
+# Model 2
+
+# Initial condition
+
+init_gamma = lm(y_2 ~ x) %>%
+  {c(coef(.), sigma2 = summary(.)$sigma^2)}
+
+mod2_norm <- optim(par = init_gamma,
+      fn = function(theta){-l_norm0(theta = theta, y = y_2, x=x)})
+@
+
+<<results='markup'>>=
+print(mod2_norm$par)
+@
+
+<<>>=
+# Model 3
+
+# Initial condition
+
+init_t = lm(y_3 ~ x) %>%
+  {c(coef(.), sigma2 = summary(.)$sigma^2)}
+
+mod3_norm <- optim(par = init_t,
+      fn = function(theta){-l_norm0(theta = theta, y = y_3, x=x)})
+@
+
+<<results='markup'>>=
+print(mod3_norm$par)
+@
+
+\item
+
+\end{enumerate}
+
+\question
+
+\begin{enumerate}
+
+<<>>=
+# Exercise 4
+
+# Model 1
+
+# Objective funciton
+l_normmix <- function(theta, mu1, mu2, sigma2_1, sigma2_2, y, x){
+  -length(y)*log(2)+ sum(log(1/sqrt(2*pi*sigma2_1)*
+                               exp(-1/(2*sigma2_1)*
+                                     (y - theta[1] - theta[2] * x - mu1)^2) +
+                           1/sqrt(2*pi*sigma2_2)*
+                           exp(-1/(2*sigma2_2) *
+                                 (y - theta[1] - theta[2] * x - mu2)^2)))
+}
+
+# Initial condition previously defined #
+
+mod1_true <- optim(par = init_norm[-3],
+      fn = function(theta){-l_normmix(theta = theta, mu1 = 2, mu2 = 1, sigma2_1 = 1.5, sigma2_2 = 3, y = y_1, x=x)})
+@
+
+<<results='markup'>>=
+print(mod1_true$par)
+@
+
+<<>>=
+# Model 2
+
+# Objective funciton
+l_gamma <- function(theta, a, b, y, x){
+  if(prod(y - theta[1] - theta[2]*x > 0)){ # Checking whether u_i > 0 \forall i = 1, ..., n
+    return(length(y)*log(b^a/gamma(a)) + (a-1)*sum(log(y - theta[1] - theta[2]*x)) - b*sum(y - theta[1] - theta[2] * x))
+  }else{
+    return(-Inf)
+    }
+}
+
+# Initial condition previously defined #
+
+# The objective function evaluated at the initial condition returns an error.
+# So I'll be subtracting 1
+
+mod2_true <- optim(par = init_gamma[-3]-1,
+      fn = function(theta){-l_gamma(theta = theta, a = 1.75, b = .8, y = y_2, x = x)})
+@
+
+<<results='markup'>>=
+print(mod2_true$par)
+@
+
+<<>>=
+# Model 3
+
+# Objective funciton
+l_t <- function(theta, y, x){
+  length(y)*(log(gamma((theta[3]+1)/2)) - log(sqrt(theta[3]*pi)) - log(gamma(theta[3]/2))) -
+    (theta[3]+1)/2*sum(log(1 + ((y - theta[1] - theta[2]*x)^2)/theta[3]))
+}
+
+init_t2 = c(coef(
+  lm(y_3 ~ x)
+), df = 0.0001) # Setting a pretty small degree of freedom as an initial guess
+
+mod3_true <- optim(par = init_t2,
+      fn = function(theta){-l_t(theta = theta, y = y_3, x=x)})
+@
+
+<<results='markup'>>=
+print(mod3_true$par)
+@
+
+<<curves, fig.cap='Comparativo', fig.subcap=c('Modelo 1', 'Modelo 2', 'Modelo 3'), out.width='.33333333\\linewidth'>>=
+plot_curves <- function(...){
+  ggplot() +
+    geom_point(aes(y =eval(parse(text = paste0('y_', ...))), x=x), alpha = .5, color = purple_rain_colors[1]) +
+    geom_abline(slope = beta[2],
+                intercept = beta[1],
+                linetype = 'F1',
+                color = 'grey',
+                linewidth = 1) +
+    geom_abline(slope = eval(parse(text = paste0('mod', ..., '_true$par[2]'))),
+                intercept = eval(parse(text =paste0('mod', ..., '_true$par[1]'))),
+                linetype = 'dashed',
+                color = purple_rain_colors[1],
+                linewidth = 1,
+                alpha = .75) +
+    geom_abline(slope = eval(parse(text = paste0('mod', ..., '_norm$par[2]'))),
+                intercept = eval(parse(text = paste0('mod', ..., '_norm$par[1]'))),
+                linetype = 'solid',
+                color = purple_rain_colors[1],
+                linewidth = 1,
+                alpha = .75) +
+    labs(x = "x", y = "y")
+}
+
+invoke_map(.f = plot_curves, .x = 1:3)
+@
+
+
+\end{enumerate}
 
 
 % citations
