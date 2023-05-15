@@ -195,7 +195,7 @@ e = P * e1 + (1-P) * e2
 y_1 = beta[1] + beta[2] * x + e
 @
 
-<<Simul1, fig.cap='Distribuições de $e_1$, $e_2$, $e$', fig.subcap=c('$e_1$ e $e_2$', 'Mistura'), out.width='.49\\linewidth'>>=
+<<Simul1, fig.cap='Distribuições de $e_1$, $e_2$, $e$', fig.subcap=c('$e_1$ e $e_2$', 'Mistura'), out.width='.49\\\\linewidth'>>=
 tibble(e1, e2) %>%
   pivot_longer(cols = c('e1', 'e2')) %>%
   ggplot(aes(x = value, group = name)) +
@@ -243,9 +243,6 @@ print(xtable(map_df(list(x, e1, e2, y_1, u, y_2, v, y_3), ~summary(.x)) %>%
       caption = 'Estatísticas descritivas'),
       sanitize.text.function=function(x){x}, include.rownames = FALSE)
 @
-
-Os momentos teóricos, por sua vez, são
-
 
 % citations
 \bibliographystyle{plain}

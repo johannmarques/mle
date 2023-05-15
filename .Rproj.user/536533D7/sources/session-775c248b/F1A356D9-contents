@@ -5,15 +5,15 @@
 \title{Lista Prática}
 \address{}
 
-%\graphicspath{{./media/}}
 \usepackage[portuguese]{babel}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{bm}
 \usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{caption}
 
 \begin{document} \maketitle
-\SweaveOpts{concordance=TRUE}
 
 \question
 
@@ -109,12 +109,143 @@ Vide \cite{greene2011econometric}, Teorema 14.1.M2, \textit{se são satisfeitas 
 
 em que $\hat{\bm{\theta}}$ é o estimador de Máxima Verossimilhança de $\bm{\theta}_0$, e $\mathbf{I(\bm{\theta}_0)} = -\mathbb{E}\left[\dfrac{\partial^2\mathrm{log}(L)}{\partial\bm{\theta}_0\partial\bm{\theta}_0^'}\right].
 
+\renewcommand{\labelenumi}{R.\arabic{enumi}.}
+
 \begin{tcolorbox}
 {\hfill\textbf{Condições de regularidade}\hfill}
 
-blá blá blá
+\begin{enumerate}
+
+\item As primeiras três derivadas de $\mathrm{log}(f(y_i|\bm{\theta}))$ em relação a $\bm{\theta}$ são contínuas e finitas para quase todo $y_i$, e para todo $\bm{\theta}$.
+
+\item As condições necessárias para obter as esperanças da primeira e da segunda derivada de $\mathrm{log}(f(y_i|\bm{\theta}))$ são satisfeitas.
+
+\item Para todos os valores de $\bm{\theta}$, $\left|\partial^3\mathrm{log}(f(y_i|\bm{\theta}))/\partial\theta_j\partial\theta_k\partial_l\right|$ é menor que uma função com esperança finita.
+
+\end{enumerate}
+
+\renewcommand{\labelenumi}{\arabic{enumi}}
 
 \end{tcolorbox}
+
+\question
+
+\section{Simulações}
+
+O experimento de simulação é conduzido em \verb|R| \cite{rcore}\footnote{Soluções providas por \cite{knitr} e \cite{tidyverse} foram empregadas na análise e reporte deste exercício.}. Primeiramente, definimos parâmetros gerais para a simulação, como o tamanho da amostra e os valores verdadeiros para $\bm{\beta}$.
+
+%\definecolor{shadecolor}{RGB}{255,255,255}
+
+<<LoadTidyverse, echo = FALSE, results='hide', warning = FALSE, message = FALSE>>=
+library(tidyverse)
+library(knitr)
+library(xtable)
+library(magrittr)
+
+Sweave2knitr('main.Rnw')
+
+knitr::opts_chunk$set(echo = TRUE, results = FALSE, highlight = TRUE, tidy = TRUE, background = '#ebebeb')
+
+theme_set(theme_bw())
+
+purple_rain_colors <- c(
+    "#533a70",
+    "#a489c2",
+    "#cbbcdc",
+    "#e5ddee")
+@
+
+<<Preliminaries>>=
+# Simulating data generating processes
+
+n = 2000 # Sample size
+
+# Setting random seed
+set.seed(1981)
+
+# Exercise 2
+# Generating x
+x = rnorm(n = n, mean = 5, sd = sqrt(1))
+
+# Defining betas
+
+beta = c(2.35, 0.75)
+@
+
+Em seguida, simulamos os três processos de geração de dados. Para obter a mistura de normais, é utilizada uma variável auxiliar $P \sim \mathrm{Bernoulli}(1/2)$ e definimos $e_1 \sim \mathrm{N}(\mu_1, \sigma_1^2)$, $e_2 \sim \mathrm{N}(\mu_2, \sigma_2^2)$ e $e = Pe_1 + (1-P)e_2$.
+
+<<>>=
+# Simulating model 1
+# Since \mu_1, \mu_2, \sigma_1 and \sigma_2 were not specified,
+# I'm considering the following
+mu_1 = 2
+mu_2 = 1
+sigma_1 = sqrt(1.5)
+sigma_2 = sqrt(3)
+
+e1 = rnorm(n = n, mean = mu_1, sd = sigma_1)
+e2 = rnorm(n = n, mean = mu_2, sd = sigma_2)
+
+# Defining an auxiliary random variable P ~ Bernoulli(1/2)
+
+P = rbinom(n = n, size = 1, prob = 1/2)
+
+e = P * e1 + (1-P) * e2
+
+y_1 = beta[1] + beta[2] * x + e
+@
+
+<<Simul1, fig.cap='Distribuições de $e_1$, $e_2$, $e$', fig.subcap=c('$e_1$ e $e_2$', 'Mistura'), out.width='.49\\linewidth'>>=
+tibble(e1, e2) %>%
+  pivot_longer(cols = c('e1', 'e2')) %>%
+  ggplot(aes(x = value, group = name)) +
+    geom_histogram(aes(y = after_stat(density), fill = name),
+                   alpha = .8, position = 'identity', binwidth = 0.25, color = 'black') +
+  labs(fill = '', x = '', y = '') + scale_fill_manual(values = purple_rain_colors[c(1,2)])
+
+ggplot() +
+  geom_histogram(aes(y = after_stat(density), x = e),
+                 alpha = .8, position = 'identity', binwidth = 0.25, color = 'black',
+                 fill = purple_rain_colors[3]) +
+  labs(fill = '', x = '', y = '')
+@
+
+<<>>=
+# Simulating model 2
+# Since a and b were not specified, I'm considering the following
+
+a = 1.75
+b = .8
+
+u = rgamma(n = n, shape = a, rate = b)
+
+y_2 = beta[1] + beta[2] * x + u
+@
+
+<<>>=
+# Simulating model 3
+
+v = rt(n = n, df = 1)
+
+y_3 = beta[1] + beta[2] * x + v
+@
+
+\section{Estatísticas descritivas}
+
+<<results='asis'>>=
+print(xtable(map_df(list(x, e1, e2, y_1, u, y_2, v, y_3), ~summary(.x)) %>%
+               {cbind(data.frame('Variable' = c("$\\bar{x}$", "$\\bar{e}_1$",
+                                                "$\\bar{e}_2$", "$\\bar{y}_1$",
+                                                "$\\bar{u}$", "$\\bar{y}_2$",
+                                                "$\\bar{v}$", "$\\bar{y}_3$")),
+                      .)},
+             ,
+      caption = 'Estatísticas descritivas'),
+      sanitize.text.function=function(x){x}, include.rownames = FALSE)
+@
+
+Os momentos teóricos, por sua vez, são
+
 
 % citations
 \bibliographystyle{plain}

@@ -4,4 +4,27 @@
 WH~Greene.
 \newblock Econometric analysis, 7th. saddle river, 2011.
 
+\bibitem{rcore}
+{R Core Team}.
+\newblock {\em R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria, 2021.
+
+\bibitem{tidyverse}
+Hadley Wickham, Mara Averick, Jennifer Bryan, Winston Chang, Lucy~D'Agostino
+  McGowan, Romain François, Garrett Grolemund, Alex Hayes, Lionel Henry, Jim
+  Hester, Max Kuhn, Thomas~Lin Pedersen, Evan Miller, Stephan~Milton Bache,
+  Kirill Müller, Jeroen Ooms, David Robinson, Dana~Paige Seidel, Vitalie
+  Spinu, Kohske Takahashi, Davis Vaughan, Claus Wilke, Kara Woo, and Hiroaki
+  Yutani.
+\newblock Welcome to the {tidyverse}.
+\newblock {\em Journal of Open Source Software}, 4(43):1686, 2019.
+
+\bibitem{knitr}
+Yihui Xie.
+\newblock knitr: A comprehensive tool for reproducible research in {R}.
+\newblock In Victoria Stodden, Friedrich Leisch, and Roger~D. Peng, editors,
+  {\em Implementing Reproducible Computational Research}. Chapman and Hall/CRC,
+  2014.
+\newblock ISBN 978-1466561595.
+
 \end{thebibliography}
