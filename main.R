@@ -21,15 +21,15 @@ x = rnorm(n = n, mean = 5, sd = sqrt(1))
 
 # Defining betas
 
-beta = c(2.35, 0.75)
+beta = c(1.5, 3)
 
 # Simulating model 1
 # Since \mu_1, \mu_2, \sigma_1 and \sigma_2 were not specified,
 # I'm considering the following
-mu_1 = 2
-mu_2 = 1
-sigma_1 = sqrt(1.5)
-sigma_2 = sqrt(3)
+mu_1 = -2
+mu_2 = 2
+sigma_1 = sqrt(.5)
+sigma_2 = sqrt(25)
 
 e1 = rnorm(n = n, mean = mu_1, sd = sigma_1)
 e2 = rnorm(n = n, mean = mu_2, sd = sigma_2)
@@ -47,7 +47,7 @@ tibble(e1, e2) %>%
   ggplot(aes(x = value, group = name)) +
     geom_histogram(aes(y = after_stat(density), fill = name),
                    alpha = .8, position = 'identity', binwidth = 0.25, color = 'black') +
-  labs(fill = '', x = '', y = '') + scale_fill_manual(values = purple_rain_colors[c(1,2)])
+  labs(fill = '', x = '', y = '') + scale_fill_manual(values = purple_rain_colors[c(1,3)])
 
 ggplot() +
   geom_histogram(aes(y = after_stat(density), x = e),
@@ -142,7 +142,7 @@ l_normmix <- function(theta, mu1, mu2, sigma2_1, sigma2_2, y, x){
 # Initial condition previously defined #
 
 mod1_true <- optim(par = init_norm[-3],
-      fn = function(theta){-l_normmix(theta = theta, mu1 = 2, mu2 = 1, sigma2_1 = 1.5, sigma2_2 = 3, y = y_1, x=x)})
+                   fn = function(theta){-l_normmix(theta = theta, mu1 = mu_1, mu2 = mu_2, sigma2_1 = sigma_1^2, sigma2_2 = sigma_2^2, y = y_1, x=x)})
 
 # Model 2
 
@@ -180,7 +180,7 @@ mod3_true <- optim(par = init_t2,
 
 plot_curves <- function(...){
   ggplot() +
-    geom_point(aes(y =eval(parse(text = paste0('y_', ...))), x=x), alpha = .5, color = purple_rain_colors[1]) +
+    geom_point(aes(y =eval(parse(text = paste0('y_', ...))), x=x), alpha = .5, color = purple_rain_colors[1], shape = 21) +
     geom_abline(slope = beta[2],
                 intercept = beta[1],
                 linetype = 'F1',

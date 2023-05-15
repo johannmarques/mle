@@ -171,7 +171,7 @@ x = rnorm(n = n, mean = 5, sd = sqrt(1))
 
 # Defining betas
 
-beta = c(2.35, 0.75)
+beta = c(1.5, 3)
 @
 
 Em seguida, simulamos os três processos de geração de dados. Para obter a mistura de normais, é utilizada uma variável auxiliar $P \sim \mathrm{Bernoulli}(1/2)$ e definimos $e_1 \sim \mathrm{N}(\mu_1, \sigma_1^2)$, $e_2 \sim \mathrm{N}(\mu_2, \sigma_2^2)$ e $e = Pe_1 + (1-P)e_2$.
@@ -180,10 +180,10 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
 # Simulating model 1
 # Since \mu_1, \mu_2, \sigma_1 and \sigma_2 were not specified,
 # I'm considering the following
-mu_1 = 2
-mu_2 = 1
-sigma_1 = sqrt(1.5)
-sigma_2 = sqrt(3)
+mu_1 = -2
+mu_2 = 2
+sigma_1 = sqrt(.5)
+sigma_2 = sqrt(25)
 
 e1 = rnorm(n = n, mean = mu_1, sd = sigma_1)
 e2 = rnorm(n = n, mean = mu_2, sd = sigma_2)
@@ -202,12 +202,12 @@ tibble(e1, e2) %>%
   pivot_longer(cols = c('e1', 'e2')) %>%
   ggplot(aes(x = value, group = name)) +
     geom_histogram(aes(y = after_stat(density), fill = name),
-                   alpha = .8, position = 'identity', binwidth = 0.25, color = 'black') +
-  labs(fill = '', x = '', y = '') + scale_fill_manual(values = purple_rain_colors[c(1,2)])
+                   alpha = .8, position = 'identity', binwidth = 0.5, color = 'black') +
+  labs(fill = '', x = '', y = '') + scale_fill_manual(values = purple_rain_colors[c(1,3)])
 
 ggplot() +
   geom_histogram(aes(y = after_stat(density), x = e),
-                 alpha = .8, position = 'identity', binwidth = 0.25, color = 'black',
+                 alpha = .8, position = 'identity', binwidth = 0.5, color = 'black',
                  fill = purple_rain_colors[3]) +
   labs(fill = '', x = '', y = '')
 @
@@ -249,10 +249,10 @@ print(xtable(map_df(list(x, e1, e2, e, y_1, u, y_2, v, y_3), ~c(summary(.x), Var
 Os momentos teóricos, por sua vez, são os seguintes:
 
 \begin{align}
-  \mathbb{E}\left[e_i\right] &= p\mathbb{E}\left[e_{1i}\right] + (1-p)\mathbb{E}\left[e_{2i}\right] = 1.5\\
-  \mathbb{V}\left[e_i\right] &= p(\sigma^2_1 + \mu_1^2) + (1-p)(\sigma^2_2 + \mu_2^2) - [p\mu_1 + (1-p)\mu_2]^2 = 2.5\\
-  \mathbb{E}\left[y_{1i}\right] &= \beta_0 + \beta_1 \mathbb{E}\left[x_i\right] + \mathbb{E}\left[e_i\right] = 7.6\\
-  \mathbb{V}\left[y_{1i}\right] &= \mathbb{V}\left[\beta_1x_i + e_i\right] = \beta_1^2\mathbb{V}\left[x_{i}\right] + \mathbb{V}\left[e_{i}\right] = 3.0625
+  \mathbb{E}\left[e_i\right] &= p\mathbb{E}\left[e_{1i}\right] + (1-p)\mathbb{E}\left[e_{2i}\right] = 0\\
+  \mathbb{V}\left[e_i\right] &= p(\sigma^2_1 + \mu_1^2) + (1-p)(\sigma^2_2 + \mu_2^2) - [p\mu_1 + (1-p)\mu_2]^2 = 16.75\\
+  \mathbb{E}\left[y_{1i}\right] &= \beta_0 + \beta_1 \mathbb{E}\left[x_i\right] + \mathbb{E}\left[e_i\right] = 16.5\\
+  \mathbb{V}\left[y_{1i}\right] &= \mathbb{V}\left[\beta_1x_i + e_i\right] = \beta_1^2\mathbb{V}\left[x_{i}\right] + \mathbb{V}\left[e_{i}\right] = 25.75
 \end{align}
 
 As estimativas observadas para média e variância amostral de $y_{1}$ são coerentes com a derivação teórica.
@@ -272,7 +272,9 @@ A esperança e a variância para $v_i$ não estão definidas, portanto, também 
 
 \begin{enumerate}
 
-\item 
+\item Na ausência de conhecimento sobre o Processo Gerador de Dados, pode-se especular a distribuição dos dados a partir da literatura ou argumentações teóricas sobre a variável em questão, bem como o uso de Análise Exploratória de Dados e comparação de medidas de aderência, sem prejuízo da atenção ao sobreajuste, para diferentes especificações. Alternativamente, pode-se optar por um método que não necessite a especificação de uma distribuição de probabilidade. Note que para a especificação 1 são satisfeitas as hipóteses básicas para o Modelo de Regressão Linear e para a consistência do estimador de Mínimos Quadrados Ordinários.
+
+No entanto, para a segunda especificação, como o suporte da distribuição gama é $\left(0,\infty\right)$ e $\mathbb{E}[x_i]$, então seguramente $\mathbb{E}[u_ix_i] > 0$. Ou seja, $\hat{\bm{\beta}}_{\mathrm{OLS}} - \bm{\beta} \not\xrightarrow{\mathbb{P}} 0$, embora seja convergente. E o modelo 3, por sua vez, quebra as hipóteses do Modelo Regressão Linear e para a consistência do estimador de Mínimos Quadrados Ordinários pois a esperança e a variância de $v_i$ não são definidas.
 
 \item Definindo a log-verossimilhança amostral, que será a função objetivo do problema de otimização, como função de $\bm{\beta}$ e $\sigma^2$:
 
@@ -304,6 +306,8 @@ mod1_norm <- optim(par = init_norm,
 print(mod1_norm$par)
 @
 
+As estimativas para o modelo 1 aparantam ser, ao menos em termos numéricos, coerentes com os valores populacionais dos parâmetros. Inclusive, $\hat{\sigma^2}$ se aproxima bem das variâncias teórica e amostral de $e_i$.
+
 <<>>=
 # Model 2
 
@@ -319,6 +323,8 @@ mod2_norm <- optim(par = init_gamma,
 <<results='markup'>>=
 print(mod2_norm$par)
 @
+
+A estimativa para $\beta_1$ se aproxima razoavelmente do parâmetro populacional. A estimativa para $\sigma^2$ também é próxima da variância de $u_i \sim \Gamma(a,b)$. No entanto, a estimativa para o intercepto diverge de $\beta_0$.
 
 <<>>=
 # Model 3
@@ -336,13 +342,17 @@ mod3_norm <- optim(par = init_t,
 print(mod3_norm$par)
 @
 
-\item
+A estimativa para $\bm{\beta}$ difere substancialmente do parâmetro populacional. Não é possível comparar $\hat{\sigma^2}$ com $\mathbb{V}[u_i]$ pois esta não é definida.
+
+\item Considerando estimação por Máxima Verossimilhança, pode-se considerar conduzir os testes baseados em Máxima Verossimilhança LR, LM e Wald, assumindo que os modelos satisfaçam as Condições de Regularidade.
 
 \end{enumerate}
 
 \question
 
 \begin{enumerate}
+
+Especificando a função objetivo e estimando os parâmetros para o modelo 1:
 
 <<>>=
 # Exercise 4
@@ -362,12 +372,14 @@ l_normmix <- function(theta, mu1, mu2, sigma2_1, sigma2_2, y, x){
 # Initial condition previously defined #
 
 mod1_true <- optim(par = init_norm[-3],
-      fn = function(theta){-l_normmix(theta = theta, mu1 = 2, mu2 = 1, sigma2_1 = 1.5, sigma2_2 = 3, y = y_1, x=x)})
+      fn = function(theta){-l_normmix(theta = theta, mu1 = mu_1, mu2 = mu_2, sigma2_1 = sigma_1^2, sigma2_2 = sigma_2^2, y = y_1, x=x)})
 @
 
 <<results='markup'>>=
 print(mod1_true$par)
 @
+
+Nota-se que as estimativas, em termos numéricos, não diferem substancialmente das estimativas assumindo distribuição gaussiana. Estas, por sua vez, também são coerentes com os valores populacionais de $\bm{\beta}$.
 
 <<>>=
 # Model 2
@@ -418,7 +430,8 @@ print(mod3_true$par)
 <<curves, fig.cap='Comparativo', fig.subcap=c('Modelo 1', 'Modelo 2', 'Modelo 3'), out.width='.33333333\\\\linewidth'>>=
 plot_curves <- function(...){
   ggplot() +
-    geom_point(aes(y =eval(parse(text = paste0('y_', ...))), x=x), alpha = .5, color = purple_rain_colors[1]) +
+    geom_point(aes(y =eval(parse(text = paste0('y_', ...))), x=x), alpha = .5,
+               color = purple_rain_colors[1], shape = 21) +
     geom_abline(slope = beta[2],
                 intercept = beta[1],
                 linetype = 'F1',
@@ -441,7 +454,6 @@ plot_curves <- function(...){
 
 invoke_map(.f = plot_curves, .x = 1:3)
 @
-
 
 \end{enumerate}
 
