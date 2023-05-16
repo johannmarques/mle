@@ -216,8 +216,8 @@ ggplot() +
 # Simulating model 2
 # Since a and b were not specified, I'm considering the following
 
-a = 1.75
-b = .8
+a = 3
+b = 6
 
 u = rgamma(n = n, shape = a, rate = b)
 
@@ -258,10 +258,10 @@ Os momentos teóricos, por sua vez, são os seguintes:
 As estimativas observadas para média e variância amostral de $y_{1}$ são coerentes com a derivação teórica.
 
 \begin{align}
-  \mathbb{E}\left[u_i\right] &= \dfrac{a}{b} = 2.1875\\
-  \mathbb{V}\left[u_i\right] &= \dfrac{a}{b} = 2.734375\\
-  \mathbb{E}\left[y_{2i}\right] &= \beta_0 + \beta_1 \mathbb{E}\left[x_i\right] + \mathbb{E}\left[u_i\right] = 8.2875\\
-  \mathbb{V}\left[y_{2i}\right] &= \mathbb{V}\left[\beta_1x_i + u_i\right] = \beta_1^2\mathbb{V}\left[x_{i}\right] + \mathbb{V}\left[u_{i}\right] = 3.296875
+  \mathbb{E}\left[u_i\right] &= \dfrac{a}{b} = 0.5\\
+  \mathbb{V}\left[u_i\right] &= \dfrac{a}{b^2} = 0.083333\\
+  \mathbb{E}\left[y_{2i}\right] &= \beta_0 + \beta_1 \mathbb{E}\left[x_i\right] + \mathbb{E}\left[u_i\right] = 17\\
+  \mathbb{V}\left[y_{2i}\right] &= \mathbb{V}\left[\beta_1x_i + u_i\right] = \beta_1^2\mathbb{V}\left[x_{i}\right] + \mathbb{V}\left[u_{i}\right] = 9.083333
 \end{align}
 
 As estimativas observadas para média e variância amostral de $y_{2}$ não diferem substancialmente dos momentos teóricos.
@@ -274,7 +274,7 @@ A esperança e a variância para $v_i$ não estão definidas, portanto, também 
 
 \item Na ausência de conhecimento sobre o Processo Gerador de Dados, pode-se especular a distribuição dos dados a partir da literatura ou argumentações teóricas sobre a variável em questão, bem como o uso de Análise Exploratória de Dados e comparação de medidas de aderência, sem prejuízo da atenção ao sobreajuste, para diferentes especificações. Alternativamente, pode-se optar por um método que não necessite a especificação de uma distribuição de probabilidade. Note que para a especificação 1 são satisfeitas as hipóteses básicas para o Modelo de Regressão Linear e para a consistência do estimador de Mínimos Quadrados Ordinários.
 
-No entanto, para a segunda especificação, como o suporte da distribuição gama é $\left(0,\infty\right)$ e $\mathbb{E}[x_i]$, então seguramente $\mathbb{E}[u_ix_i] > 0$. Ou seja, $\hat{\bm{\beta}}_{\mathrm{OLS}} - \bm{\beta} \not\xrightarrow{\mathbb{P}} 0$, embora seja convergente. E o modelo 3, por sua vez, quebra as hipóteses do Modelo Regressão Linear e para a consistência do estimador de Mínimos Quadrados Ordinários pois a esperança e a variância de $v_i$ não são definidas.
+No entanto, para a segunda especificação, como o suporte da distribuição gama é $\left(0,\infty\right)$ e $\mathbb{E}[x_i]$, então seguramente $\mathbb{E}[u_ix_i] \neq 0$. Ou seja, $\hat{\bm{\beta}}_{\mathrm{OLS}} - \bm{\beta} \not\xrightarrow{\mathbb{P}} 0$, embora seja convergente. E o modelo 3, por sua vez, quebra as hipóteses do Modelo Regressão Linear e para a consistência do estimador de Mínimos Quadrados Ordinários pois a esperança e a variância de $v_i$ não são definidas.
 
 \item Definindo a log-verossimilhança amostral, que será a função objetivo do problema de otimização, como função de $\bm{\beta}$ e $\sigma^2$:
 

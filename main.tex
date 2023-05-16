@@ -267,8 +267,8 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
 \hlcom{# Simulating model 2}
 \hlcom{# Since a and b were not specified, I'm considering the following}
 
-\hlstd{a} \hlkwb{=} \hlnum{1.75}
-\hlstd{b} \hlkwb{=} \hlnum{.8}
+\hlstd{a} \hlkwb{=} \hlnum{3}
+\hlstd{b} \hlkwb{=} \hlnum{6}
 
 \hlstd{u} \hlkwb{=} \hlkwd{rgamma}\hlstd{(}\hlkwc{n} \hlstd{= n,} \hlkwc{shape} \hlstd{= a,} \hlkwc{rate} \hlstd{= b)}
 
@@ -303,7 +303,7 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
       \hlkwc{sanitize.text.function}\hlstd{=}\hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{)\{x\},} \hlkwc{include.rownames} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 \end{alltt}
 \end{kframe}% latex table generated in R 4.1.2 by xtable 1.8-4 package
-% Mon May 15 20:31:51 2023
+% Mon May 15 23:40:30 2023
 \begin{table}[ht]
 \centering
 \begin{tabular}{lrrrrrrr}
@@ -315,10 +315,10 @@ $\bar{x}$ & 1.81 & 4.27 & 4.97 & 4.98 & 5.69 & 8.46 & 1.00 \\
   $\bar{e}_2$ & -17.73 & -1.44 & 2.20 & 1.97 & 5.41 & 18.62 & 25.27 \\ 
   $\bar{e}$ & -17.73 & -2.36 & -1.48 & -0.02 & 2.29 & 16.15 & 16.76 \\ 
   $\bar{y}_1$ & 0.96 & 12.91 & 15.77 & 16.42 & 19.38 & 37.87 & 25.83 \\ 
-  $\bar{u}$ & 0.03 & 0.99 & 1.76 & 2.18 & 2.94 & 13.91 & 2.82 \\ 
-  $\bar{y}_2$ & 8.48 & 16.25 & 18.58 & 18.62 & 20.86 & 34.74 & 11.66 \\ 
-  $\bar{v}$ & -2163.94 & -1.01 & -0.01 & 1.48 & 0.98 & 5489.95 & 17973.79 \\ 
-  $\bar{y}_3$ & -2150.50 & 13.76 & 16.37 & 17.93 & 19.16 & 5504.13 & 17974.94 \\ 
+  $\bar{u}$ & 0.02 & 0.29 & 0.44 & 0.50 & 0.65 & 1.96 & 0.08 \\ 
+  $\bar{y}_2$ & 7.28 & 14.86 & 16.91 & 16.94 & 19.08 & 27.26 & 9.00 \\ 
+  $\bar{v}$ & -2163.94 & -1.01 & -0.00 & 1.46 & 0.96 & 5489.95 & 17973.98 \\ 
+  $\bar{y}_3$ & -2146.88 & 13.68 & 16.38 & 17.91 & 19.14 & 5501.13 & 17953.97 \\ 
    \hline
 \end{tabular}
 \caption{Estatísticas descritivas} 
@@ -337,10 +337,10 @@ Os momentos teóricos, por sua vez, são os seguintes:
 As estimativas observadas para média e variância amostral de $y_{1}$ são coerentes com a derivação teórica.
 
 \begin{align}
-  \mathbb{E}\left[u_i\right] &= \dfrac{a}{b} = 2.1875\\
-  \mathbb{V}\left[u_i\right] &= \dfrac{a}{b} = 2.734375\\
-  \mathbb{E}\left[y_{2i}\right] &= \beta_0 + \beta_1 \mathbb{E}\left[x_i\right] + \mathbb{E}\left[u_i\right] = 8.2875\\
-  \mathbb{V}\left[y_{2i}\right] &= \mathbb{V}\left[\beta_1x_i + u_i\right] = \beta_1^2\mathbb{V}\left[x_{i}\right] + \mathbb{V}\left[u_{i}\right] = 3.296875
+  \mathbb{E}\left[u_i\right] &= \dfrac{a}{b} = 0.5\\
+  \mathbb{V}\left[u_i\right] &= \dfrac{a}{b^2} = 0.083333\\
+  \mathbb{E}\left[y_{2i}\right] &= \beta_0 + \beta_1 \mathbb{E}\left[x_i\right] + \mathbb{E}\left[u_i\right] = 17\\
+  \mathbb{V}\left[y_{2i}\right] &= \mathbb{V}\left[\beta_1x_i + u_i\right] = \beta_1^2\mathbb{V}\left[x_{i}\right] + \mathbb{V}\left[u_{i}\right] = 9.083333
 \end{align}
 
 As estimativas observadas para média e variância amostral de $y_{2}$ não diferem substancialmente dos momentos teóricos.
@@ -353,7 +353,7 @@ A esperança e a variância para $v_i$ não estão definidas, portanto, também 
 
 \item Na ausência de conhecimento sobre o Processo Gerador de Dados, pode-se especular a distribuição dos dados a partir da literatura ou argumentações teóricas sobre a variável em questão, bem como o uso de Análise Exploratória de Dados e comparação de medidas de aderência, sem prejuízo da atenção ao sobreajuste, para diferentes especificações. Alternativamente, pode-se optar por um método que não necessite a especificação de uma distribuição de probabilidade. Note que para a especificação 1 são satisfeitas as hipóteses básicas para o Modelo de Regressão Linear e para a consistência do estimador de Mínimos Quadrados Ordinários.
 
-No entanto, para a segunda especificação, como o suporte da distribuição gama é $\left(0,\infty\right)$ e $\mathbb{E}[x_i]$, então seguramente $\mathbb{E}[u_ix_i] > 0$. Ou seja, $\hat{\bm{\beta}}_{\mathrm{OLS}} - \bm{\beta} \not\xrightarrow{\mathbb{P}} 0$, embora seja convergente. E o modelo 3, por sua vez, quebra as hipóteses do Modelo Regressão Linear e para a consistência do estimador de Mínimos Quadrados Ordinários pois a esperança e a variância de $v_i$ não são definidas.
+No entanto, para a segunda especificação, como o suporte da distribuição gama é $\left(0,\infty\right)$ e $\mathbb{E}[x_i]$, então seguramente $\mathbb{E}[u_ix_i] \neq 0$. Ou seja, $\hat{\bm{\beta}}_{\mathrm{OLS}} - \bm{\beta} \not\xrightarrow{\mathbb{P}} 0$, embora seja convergente. E o modelo 3, por sua vez, quebra as hipóteses do Modelo Regressão Linear e para a consistência do estimador de Mínimos Quadrados Ordinários pois a esperança e a variância de $v_i$ não são definidas.
 
 \item Definindo a log-verossimilhança amostral, que será a função objetivo do problema de otimização, como função de $\bm{\beta}$ e $\sigma^2$:
 
@@ -416,7 +416,9 @@ As estimativas para o modelo 1 aparantam ser, ao menos em termos numéricos, coe
 \hlstd{mod2_norm} \hlkwb{<-} \hlkwd{optim}\hlstd{(}\hlkwc{par} \hlstd{= init_gamma,}
       \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_norm0}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{y} \hlstd{= y_2,} \hlkwc{x}\hlstd{=x)\})}
 \end{alltt}
-\end{kframe}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in log(2 * pi * theta[3]): NaNs produzidos}}\end{kframe}
 \end{knitrout}
 
 \begin{knitrout}
@@ -426,7 +428,7 @@ As estimativas para o modelo 1 aparantam ser, ao menos em termos numéricos, coe
 \end{alltt}
 \begin{verbatim}
 ## (Intercept)           x      sigma2 
-##    3.794145    2.977015    2.815401
+##  2.04442687  2.99021545  0.08333457
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -456,7 +458,7 @@ A estimativa para $\beta_1$ se aproxima razoavelmente do parâmetro populacional
 \end{alltt}
 \begin{verbatim}
 ##  (Intercept)            x       sigma2 
-##     9.533346     1.683781 17957.619949
+##    27.139428    -1.853879 17936.131962
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -544,7 +546,7 @@ Nota-se que as estimativas, em termos numéricos, não diferem substancialmente 
 \end{alltt}
 \begin{verbatim}
 ## (Intercept)           x 
-##    1.493933    3.001636
+##    1.008164    2.995912
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -577,7 +579,7 @@ Nota-se que as estimativas, em termos numéricos, não diferem substancialmente 
 \end{alltt}
 \begin{verbatim}
 ## (Intercept)           x          df 
-##   1.4947899   3.0016811   0.9800394
+##   1.4711328   3.0079292   0.9809329
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
