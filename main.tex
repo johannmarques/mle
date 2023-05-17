@@ -78,10 +78,10 @@
               \end{cases}
   \end{align}
   
-  Para computar a densidade, podemos modelar $f(e_i) \sim \mathrm{Bern}(1/2)$ e calcular $\mathbb{E}_{\mathrm{Bern(1/2)}}\left[f(e_i)\right]$:
+  A densidade de $f(e_i)$ é, portanto:
   
   \begin{align}
-    \mathbb{E}_{\mathrm{Bern(1/2)}}\left[f(e_i)\right] &=
+    f(e_i) &=
     \dfrac{1}{2}\times\left[\dfrac{1}{\sqrt{2\pi\sigma_1^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_1^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_1 \right)^2\right) +
     \dfrac{1}{\sqrt{2\pi\sigma_2^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_2^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_2 \right)^2\right)\right].
   \end{align}
@@ -303,7 +303,7 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
       \hlkwc{sanitize.text.function}\hlstd{=}\hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{)\{x\},} \hlkwc{include.rownames} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 \end{alltt}
 \end{kframe}% latex table generated in R 4.1.2 by xtable 1.8-4 package
-% Mon May 15 23:40:30 2023
+% Wed May 17 00:14:57 2023
 \begin{table}[ht]
 \centering
 \begin{tabular}{lrrrrrrr}
@@ -534,7 +534,7 @@ Nota-se que as estimativas, em termos numéricos, não diferem substancialmente 
 \hlcom{# So I'll be subtracting 1}
 
 \hlstd{mod2_true} \hlkwb{<-} \hlkwd{optim}\hlstd{(}\hlkwc{par} \hlstd{= init_gamma[}\hlopt{-}\hlnum{3}\hlstd{]}\hlopt{-}\hlnum{1}\hlstd{,}
-      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_gamma}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{a} \hlstd{=} \hlnum{1.75}\hlstd{,} \hlkwc{b} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{y} \hlstd{= y_2,} \hlkwc{x} \hlstd{= x)\})}
+      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_gamma}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{a} \hlstd{= a,} \hlkwc{b} \hlstd{= b,} \hlkwc{y} \hlstd{= y_2,} \hlkwc{x} \hlstd{= x)\})}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -546,7 +546,7 @@ Nota-se que as estimativas, em termos numéricos, não diferem substancialmente 
 \end{alltt}
 \begin{verbatim}
 ## (Intercept)           x 
-##    1.008164    2.995912
+##    1.495811    2.999999
 \end{verbatim}
 \end{kframe}
 \end{knitrout}

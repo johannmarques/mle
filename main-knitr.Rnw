@@ -28,10 +28,10 @@
               \end{cases}
   \end{align}
   
-  Para computar a densidade, podemos modelar $f(e_i) \sim \mathrm{Bern}(1/2)$ e calcular $\mathbb{E}_{\mathrm{Bern(1/2)}}\left[f(e_i)\right]$:
+  A densidade de $f(e_i)$ é, portanto:
   
   \begin{align}
-    \mathbb{E}_{\mathrm{Bern(1/2)}}\left[f(e_i)\right] &=
+    f(e_i) &=
     \dfrac{1}{2}\times\left[\dfrac{1}{\sqrt{2\pi\sigma_1^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_1^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_1 \right)^2\right) +
     \dfrac{1}{\sqrt{2\pi\sigma_2^2}}\mathrm{exp}\left(-\dfrac{1}{2\sigma_2^2}\left(y_i - \beta_0 - \beta_1 x_i - \mu_2 \right)^2\right)\right].
   \end{align}
@@ -399,7 +399,7 @@ l_gamma <- function(theta, a, b, y, x){
 # So I'll be subtracting 1
 
 mod2_true <- optim(par = init_gamma[-3]-1,
-      fn = function(theta){-l_gamma(theta = theta, a = 1.75, b = .8, y = y_2, x = x)})
+      fn = function(theta){-l_gamma(theta = theta, a = a, b = b, y = y_2, x = x)})
 @
 
 <<results='markup'>>=
