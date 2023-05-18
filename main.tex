@@ -245,12 +245,15 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
   \hlkwd{pivot_longer}\hlstd{(}\hlkwc{cols} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{'e1'}\hlstd{,} \hlstr{'e2'}\hlstd{))} \hlopt{%>%}
   \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= value,} \hlkwc{group} \hlstd{= name))} \hlopt{+}
     \hlkwd{geom_histogram}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{y} \hlstd{=} \hlkwd{after_stat}\hlstd{(density),} \hlkwc{fill} \hlstd{= name),}
-                   \hlkwc{alpha} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{position} \hlstd{=} \hlstr{'identity'}\hlstd{,} \hlkwc{binwidth} \hlstd{=} \hlnum{0.5}\hlstd{,} \hlkwc{color} \hlstd{=} \hlstr{'black'}\hlstd{)} \hlopt{+}
-  \hlkwd{labs}\hlstd{(}\hlkwc{fill} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{x} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{y} \hlstd{=} \hlstr{''}\hlstd{)} \hlopt{+} \hlkwd{scale_fill_manual}\hlstd{(}\hlkwc{values} \hlstd{= purple_rain_colors[}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{3}\hlstd{)])}
+                   \hlkwc{alpha} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{position} \hlstd{=} \hlstr{'identity'}\hlstd{,}
+                   \hlkwc{binwidth} \hlstd{=} \hlnum{0.5}\hlstd{,} \hlkwc{color} \hlstd{=} \hlstr{'black'}\hlstd{)} \hlopt{+}
+  \hlkwd{labs}\hlstd{(}\hlkwc{fill} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{x} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{y} \hlstd{=} \hlstr{''}\hlstd{)} \hlopt{+}
+  \hlkwd{scale_fill_manual}\hlstd{(}\hlkwc{values} \hlstd{= purple_rain_colors[}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{3}\hlstd{)])}
 
 \hlkwd{ggplot}\hlstd{()} \hlopt{+}
   \hlkwd{geom_histogram}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{y} \hlstd{=} \hlkwd{after_stat}\hlstd{(density),} \hlkwc{x} \hlstd{= e),}
-                 \hlkwc{alpha} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{position} \hlstd{=} \hlstr{'identity'}\hlstd{,} \hlkwc{binwidth} \hlstd{=} \hlnum{0.5}\hlstd{,} \hlkwc{color} \hlstd{=} \hlstr{'black'}\hlstd{,}
+                 \hlkwc{alpha} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{position} \hlstd{=} \hlstr{'identity'}\hlstd{,}
+                 \hlkwc{binwidth} \hlstd{=} \hlnum{0.5}\hlstd{,} \hlkwc{color} \hlstd{=} \hlstr{'black'}\hlstd{,}
                  \hlkwc{fill} \hlstd{= purple_rain_colors[}\hlnum{3}\hlstd{])} \hlopt{+}
   \hlkwd{labs}\hlstd{(}\hlkwc{fill} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{x} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{y} \hlstd{=} \hlstr{''}\hlstd{)}
 \end{alltt}
@@ -280,6 +283,23 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlkwd{tibble}\hlstd{(u)} \hlopt{%>%}
+  \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= u))} \hlopt{+}
+    \hlkwd{geom_histogram}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{y} \hlstd{=} \hlkwd{after_stat}\hlstd{(density)),}
+                   \hlkwc{alpha} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{position} \hlstd{=} \hlstr{'identity'}\hlstd{,}
+                   \hlkwc{binwidth} \hlstd{=} \hlnum{0.25}\hlstd{,} \hlkwc{color} \hlstd{=} \hlstr{'black'}\hlstd{,}
+                   \hlkwc{fill} \hlstd{= purple_rain_colors[}\hlnum{3}\hlstd{])} \hlopt{+}
+  \hlkwd{labs}\hlstd{(}\hlkwc{fill} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{x} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{y} \hlstd{=} \hlstr{''}\hlstd{)}
+\end{alltt}
+\end{kframe}\begin{figure}
+\includegraphics[width=.49\linewidth]{figure/Simul2-1} \caption[Distribuição de $u$]{Distribuição de $u$}\label{fig:Simul2}
+\end{figure}
+
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
 \hlcom{# Simulating model 3}
 
 \hlstd{v} \hlkwb{=} \hlkwd{rt}\hlstd{(}\hlkwc{n} \hlstd{= n,} \hlkwc{df} \hlstd{=} \hlnum{1}\hlstd{)}
@@ -289,11 +309,29 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
 \end{kframe}
 \end{knitrout}
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{tibble}\hlstd{(v)} \hlopt{%>%}
+  \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= v))} \hlopt{+}
+    \hlkwd{geom_histogram}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{y} \hlstd{=} \hlkwd{after_stat}\hlstd{(density)),}
+                   \hlkwc{alpha} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{position} \hlstd{=} \hlstr{'identity'}\hlstd{,}
+                   \hlkwc{binwidth} \hlstd{=} \hlnum{10}\hlstd{,} \hlkwc{color} \hlstd{=} \hlstr{'black'}\hlstd{,}
+                   \hlkwc{fill} \hlstd{= purple_rain_colors[}\hlnum{3}\hlstd{])} \hlopt{+}
+  \hlkwd{labs}\hlstd{(}\hlkwc{fill} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{x} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{y} \hlstd{=} \hlstr{''}\hlstd{)}
+\end{alltt}
+\end{kframe}\begin{figure}
+\includegraphics[width=.49\linewidth]{figure/Simul3-1} \caption[Distribuição de $v$]{Distribuição de $v$}\label{fig:Simul3}
+\end{figure}
+
+\end{knitrout}
+
 \section{Estatísticas descritivas}
 
 \begin{kframe}
 \begin{alltt}
-\hlkwd{print}\hlstd{(}\hlkwd{xtable}\hlstd{(}\hlkwd{map_df}\hlstd{(}\hlkwd{list}\hlstd{(x, e1, e2, e, y_1, u, y_2, v, y_3),} \hlopt{~}\hlkwd{c}\hlstd{(}\hlkwd{summary}\hlstd{(.x),} \hlkwc{Var.} \hlstd{=} \hlkwd{var}\hlstd{(.x)))} \hlopt{%>%}
+\hlkwd{print}\hlstd{(}\hlkwd{xtable}\hlstd{(}\hlkwd{map_df}\hlstd{(}\hlkwd{list}\hlstd{(x, e1, e2, e, y_1, u, y_2, v, y_3),}
+                    \hlopt{~}\hlkwd{c}\hlstd{(}\hlkwd{summary}\hlstd{(.x),} \hlkwc{Var.} \hlstd{=} \hlkwd{var}\hlstd{(.x)))} \hlopt{%>%}
                \hlstd{\{}\hlkwd{cbind}\hlstd{(}\hlkwd{data.frame}\hlstd{(}\hlstr{'Variable'} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"$\textbackslash{}\textbackslash{}bar\{x\}$"}\hlstd{,} \hlstr{"$\textbackslash{}\textbackslash{}bar\{e\}_1$"}\hlstd{,}
                                                 \hlstr{"$\textbackslash{}\textbackslash{}bar\{e\}_2$"}\hlstd{,} \hlstr{"$\textbackslash{}\textbackslash{}bar\{e\}$"}\hlstd{,}
                                                 \hlstr{"$\textbackslash{}\textbackslash{}bar\{y\}_1$"}\hlstd{,} \hlstr{"$\textbackslash{}\textbackslash{}bar\{u\}$"}\hlstd{,}
@@ -303,7 +341,7 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
       \hlkwc{sanitize.text.function}\hlstd{=}\hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{)\{x\},} \hlkwc{include.rownames} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 \end{alltt}
 \end{kframe}% latex table generated in R 4.1.2 by xtable 1.8-4 package
-% Wed May 17 00:14:57 2023
+% Wed May 17 23:51:37 2023
 \begin{table}[ht]
 \centering
 \begin{tabular}{lrrrrrrr}
@@ -366,7 +404,8 @@ No entanto, para a segunda especificação, como o suporte da distribuição gam
 
 \hlcom{# Objective funciton}
 \hlstd{l_norm0} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{,} \hlkwc{y}\hlstd{,} \hlkwc{x}\hlstd{)\{}
-  \hlopt{-}\hlkwd{length}\hlstd{(y)}\hlopt{/}\hlnum{2}\hlopt{*}\hlkwd{log}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{theta[}\hlnum{3}\hlstd{])} \hlopt{+} \hlkwd{sum}\hlstd{(}\hlopt{-}\hlnum{1}\hlopt{/}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{theta[}\hlnum{3}\hlstd{])}\hlopt{*}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x)}\hlopt{^}\hlnum{2}\hlstd{)}
+  \hlopt{-}\hlkwd{length}\hlstd{(y)}\hlopt{/}\hlnum{2}\hlopt{*}\hlkwd{log}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{pi}\hlopt{*}\hlstd{theta[}\hlnum{3}\hlstd{])} \hlopt{+}
+    \hlkwd{sum}\hlstd{(}\hlopt{-}\hlnum{1}\hlopt{/}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{theta[}\hlnum{3}\hlstd{])}\hlopt{*}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x)}\hlopt{^}\hlnum{2}\hlstd{)}
 \hlstd{\}}
 \end{alltt}
 \end{kframe}
@@ -495,7 +534,9 @@ Especificando a função objetivo e estimando os parâmetros para o modelo 1:
 \hlcom{# Initial condition previously defined #}
 
 \hlstd{mod1_true} \hlkwb{<-} \hlkwd{optim}\hlstd{(}\hlkwc{par} \hlstd{= init_norm[}\hlopt{-}\hlnum{3}\hlstd{],}
-      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_normmix}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{mu1} \hlstd{= mu_1,} \hlkwc{mu2} \hlstd{= mu_2,} \hlkwc{sigma2_1} \hlstd{= sigma_1}\hlopt{^}\hlnum{2}\hlstd{,} \hlkwc{sigma2_2} \hlstd{= sigma_2}\hlopt{^}\hlnum{2}\hlstd{,} \hlkwc{y} \hlstd{= y_1,} \hlkwc{x}\hlstd{=x)\})}
+      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_normmix}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{mu1} \hlstd{= mu_1,}
+                                      \hlkwc{mu2} \hlstd{= mu_2,}\hlkwc{sigma2_1} \hlstd{= sigma_1}\hlopt{^}\hlnum{2}\hlstd{,}
+                                      \hlkwc{sigma2_2} \hlstd{= sigma_2}\hlopt{^}\hlnum{2}\hlstd{,} \hlkwc{y} \hlstd{= y_1,} \hlkwc{x}\hlstd{=x)\})}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -521,8 +562,11 @@ Nota-se que as estimativas, em termos numéricos, não diferem substancialmente 
 
 \hlcom{# Objective funciton}
 \hlstd{l_gamma} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{,} \hlkwc{a}\hlstd{,} \hlkwc{b}\hlstd{,} \hlkwc{y}\hlstd{,} \hlkwc{x}\hlstd{)\{}
-  \hlkwa{if}\hlstd{(}\hlkwd{prod}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x} \hlopt{>} \hlnum{0}\hlstd{))\{} \hlcom{# Checking whether u_i > 0 \textbackslash{}forall i = 1, ..., n}
-    \hlkwd{return}\hlstd{(}\hlkwd{length}\hlstd{(y)}\hlopt{*}\hlkwd{log}\hlstd{(b}\hlopt{^}\hlstd{a}\hlopt{/}\hlkwd{gamma}\hlstd{(a))} \hlopt{+} \hlstd{(a}\hlopt{-}\hlnum{1}\hlstd{)}\hlopt{*}\hlkwd{sum}\hlstd{(}\hlkwd{log}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x))} \hlopt{-} \hlstd{b}\hlopt{*}\hlkwd{sum}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]} \hlopt{*} \hlstd{x))}
+  \hlkwa{if}\hlstd{(}\hlkwd{prod}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x} \hlopt{>} \hlnum{0}\hlstd{))\{} \hlcom{# Checking whether u_i > 0}
+    \hlcom{# \textbackslash{}forall i = 1, ..., n}
+    \hlkwd{return}\hlstd{(}\hlkwd{length}\hlstd{(y)}\hlopt{*}\hlkwd{log}\hlstd{(b}\hlopt{^}\hlstd{a}\hlopt{/}\hlkwd{gamma}\hlstd{(a))} \hlopt{+}
+             \hlstd{(a}\hlopt{-}\hlnum{1}\hlstd{)}\hlopt{*}\hlkwd{sum}\hlstd{(}\hlkwd{log}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x))} \hlopt{-}
+             \hlstd{b}\hlopt{*}\hlkwd{sum}\hlstd{(y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]} \hlopt{*} \hlstd{x))}
   \hlstd{\}}\hlkwa{else}\hlstd{\{}
     \hlkwd{return}\hlstd{(}\hlopt{-}\hlnum{Inf}\hlstd{)}
     \hlstd{\}}
@@ -534,7 +578,8 @@ Nota-se que as estimativas, em termos numéricos, não diferem substancialmente 
 \hlcom{# So I'll be subtracting 1}
 
 \hlstd{mod2_true} \hlkwb{<-} \hlkwd{optim}\hlstd{(}\hlkwc{par} \hlstd{= init_gamma[}\hlopt{-}\hlnum{3}\hlstd{]}\hlopt{-}\hlnum{1}\hlstd{,}
-      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_gamma}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{a} \hlstd{= a,} \hlkwc{b} \hlstd{= b,} \hlkwc{y} \hlstd{= y_2,} \hlkwc{x} \hlstd{= x)\})}
+      \hlkwc{fn} \hlstd{=} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{)\{}\hlopt{-}\hlkwd{l_gamma}\hlstd{(}\hlkwc{theta} \hlstd{= theta,} \hlkwc{a} \hlstd{= a,}
+                                    \hlkwc{b} \hlstd{= b,} \hlkwc{y} \hlstd{= y_2,} \hlkwc{x} \hlstd{= x)\})}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -558,7 +603,8 @@ Nota-se que as estimativas, em termos numéricos, não diferem substancialmente 
 
 \hlcom{# Objective funciton}
 \hlstd{l_t} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{theta}\hlstd{,} \hlkwc{y}\hlstd{,} \hlkwc{x}\hlstd{)\{}
-  \hlkwd{length}\hlstd{(y)}\hlopt{*}\hlstd{(}\hlkwd{log}\hlstd{(}\hlkwd{gamma}\hlstd{((theta[}\hlnum{3}\hlstd{]}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{/}\hlnum{2}\hlstd{))} \hlopt{-} \hlkwd{log}\hlstd{(}\hlkwd{sqrt}\hlstd{(theta[}\hlnum{3}\hlstd{]}\hlopt{*}\hlstd{pi))} \hlopt{-} \hlkwd{log}\hlstd{(}\hlkwd{gamma}\hlstd{(theta[}\hlnum{3}\hlstd{]}\hlopt{/}\hlnum{2}\hlstd{)))} \hlopt{-}
+  \hlkwd{length}\hlstd{(y)}\hlopt{*}\hlstd{(}\hlkwd{log}\hlstd{(}\hlkwd{gamma}\hlstd{((theta[}\hlnum{3}\hlstd{]}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{/}\hlnum{2}\hlstd{))} \hlopt{-} \hlkwd{log}\hlstd{(}\hlkwd{sqrt}\hlstd{(theta[}\hlnum{3}\hlstd{]}\hlopt{*}\hlstd{pi))} \hlopt{-}
+               \hlkwd{log}\hlstd{(}\hlkwd{gamma}\hlstd{(theta[}\hlnum{3}\hlstd{]}\hlopt{/}\hlnum{2}\hlstd{)))} \hlopt{-}
     \hlstd{(theta[}\hlnum{3}\hlstd{]}\hlopt{+}\hlnum{1}\hlstd{)}\hlopt{/}\hlnum{2}\hlopt{*}\hlkwd{sum}\hlstd{(}\hlkwd{log}\hlstd{(}\hlnum{1} \hlopt{+} \hlstd{((y} \hlopt{-} \hlstd{theta[}\hlnum{1}\hlstd{]} \hlopt{-} \hlstd{theta[}\hlnum{2}\hlstd{]}\hlopt{*}\hlstd{x)}\hlopt{^}\hlnum{2}\hlstd{)}\hlopt{/}\hlstd{theta[}\hlnum{3}\hlstd{]))}
 \hlstd{\}}
 
@@ -597,13 +643,15 @@ Nota-se que as estimativas, em termos numéricos, não diferem substancialmente 
                 \hlkwc{color} \hlstd{=} \hlstr{'grey'}\hlstd{,}
                 \hlkwc{linewidth} \hlstd{=} \hlnum{1}\hlstd{)} \hlopt{+}
     \hlkwd{geom_abline}\hlstd{(}\hlkwc{slope} \hlstd{=} \hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{'mod'}\hlstd{, ...,} \hlstr{'_true$par[2]'}\hlstd{))),}
-                \hlkwc{intercept} \hlstd{=} \hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=}\hlkwd{paste0}\hlstd{(}\hlstr{'mod'}\hlstd{, ...,} \hlstr{'_true$par[1]'}\hlstd{))),}
+                \hlkwc{intercept} \hlstd{=} \hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=}\hlkwd{paste0}\hlstd{(}\hlstr{'mod'}\hlstd{, ...,}
+                                                    \hlstr{'_true$par[1]'}\hlstd{))),}
                 \hlkwc{linetype} \hlstd{=} \hlstr{'dashed'}\hlstd{,}
                 \hlkwc{color} \hlstd{= purple_rain_colors[}\hlnum{1}\hlstd{],}
                 \hlkwc{linewidth} \hlstd{=} \hlnum{1}\hlstd{,}
                 \hlkwc{alpha} \hlstd{=} \hlnum{.75}\hlstd{)} \hlopt{+}
     \hlkwd{geom_abline}\hlstd{(}\hlkwc{slope} \hlstd{=} \hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{'mod'}\hlstd{, ...,} \hlstr{'_norm$par[2]'}\hlstd{))),}
-                \hlkwc{intercept} \hlstd{=} \hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{'mod'}\hlstd{, ...,} \hlstr{'_norm$par[1]'}\hlstd{))),}
+                \hlkwc{intercept} \hlstd{=} \hlkwd{eval}\hlstd{(}\hlkwd{parse}\hlstd{(}\hlkwc{text} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{'mod'}\hlstd{, ...,}
+                                                     \hlstr{'_norm$par[1]'}\hlstd{))),}
                 \hlkwc{linetype} \hlstd{=} \hlstr{'solid'}\hlstd{,}
                 \hlkwc{color} \hlstd{= purple_rain_colors[}\hlnum{1}\hlstd{],}
                 \hlkwc{linewidth} \hlstd{=} \hlnum{1}\hlstd{,}

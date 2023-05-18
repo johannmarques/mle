@@ -146,7 +146,8 @@ library(magrittr)
 
 Sweave2knitr('main.Rnw')
 
-knitr::opts_chunk$set(echo = TRUE, results = FALSE, highlight = TRUE, tidy = TRUE, background = '#ebebeb')
+knitr::opts_chunk$set(echo = TRUE, results = FALSE, highlight = TRUE,
+                      tidy = TRUE, background = '#ebebeb')
 
 theme_set(theme_bw())
 
@@ -202,12 +203,15 @@ tibble(e1, e2) %>%
   pivot_longer(cols = c('e1', 'e2')) %>%
   ggplot(aes(x = value, group = name)) +
     geom_histogram(aes(y = after_stat(density), fill = name),
-                   alpha = .8, position = 'identity', binwidth = 0.5, color = 'black') +
-  labs(fill = '', x = '', y = '') + scale_fill_manual(values = purple_rain_colors[c(1,3)])
+                   alpha = .8, position = 'identity',
+                   binwidth = 0.5, color = 'black') +
+  labs(fill = '', x = '', y = '') +
+  scale_fill_manual(values = purple_rain_colors[c(1,3)])
 
 ggplot() +
   geom_histogram(aes(y = after_stat(density), x = e),
-                 alpha = .8, position = 'identity', binwidth = 0.5, color = 'black',
+                 alpha = .8, position = 'identity',
+                 binwidth = 0.5, color = 'black',
                  fill = purple_rain_colors[3]) +
   labs(fill = '', x = '', y = '')
 @
@@ -224,6 +228,16 @@ u = rgamma(n = n, shape = a, rate = b)
 y_2 = beta[1] + beta[2] * x + u
 @
 
+<<Simul2, fig.cap='Distribuição de $u$', out.width='.49\\\\linewidth'>>=
+tibble(u) %>%
+  ggplot(aes(x = u)) +
+    geom_histogram(aes(y = after_stat(density)),
+                   alpha = .8, position = 'identity',
+                   binwidth = 0.25, color = 'black',
+                   fill = purple_rain_colors[3]) +
+  labs(fill = '', x = '', y = '')
+@
+
 <<>>=
 # Simulating model 3
 
@@ -232,11 +246,22 @@ v = rt(n = n, df = 1)
 y_3 = beta[1] + beta[2] * x + v
 @
 
+<<Simul3, fig.cap='Distribuição de $v$', out.width='.49\\\\linewidth'>>=
+tibble(v) %>%
+  ggplot(aes(x = v)) +
+    geom_histogram(aes(y = after_stat(density)),
+                   alpha = .8, position = 'identity',
+                   binwidth = 10, color = 'black',
+                   fill = purple_rain_colors[3]) +
+  labs(fill = '', x = '', y = '')
+@
+
 \section{Estatísticas descritivas}
 
 <<results='asis'>>=
 
-print(xtable(map_df(list(x, e1, e2, e, y_1, u, y_2, v, y_3), ~c(summary(.x), Var. = var(.x))) %>%
+print(xtable(map_df(list(x, e1, e2, e, y_1, u, y_2, v, y_3),
+                    ~c(summary(.x), Var. = var(.x))) %>%
                {cbind(data.frame('Variable' = c("$\\bar{x}$", "$\\bar{e}_1$",
                                                 "$\\bar{e}_2$", "$\\bar{e}$",
                                                 "$\\bar{y}_1$", "$\\bar{u}$",
@@ -285,7 +310,8 @@ No entanto, para a segunda especificação, como o suporte da distribuição gam
 
 # Objective funciton
 l_norm0 <- function(theta, y, x){
-  -length(y)/2*log(2*pi*theta[3]) + sum(-1/(2*theta[3])*(y - theta[1] - theta[2]*x)^2)
+  -length(y)/2*log(2*pi*theta[3]) +
+    sum(-1/(2*theta[3])*(y - theta[1] - theta[2]*x)^2)
 }
 @
 
@@ -372,7 +398,9 @@ l_normmix <- function(theta, mu1, mu2, sigma2_1, sigma2_2, y, x){
 # Initial condition previously defined #
 
 mod1_true <- optim(par = init_norm[-3],
-      fn = function(theta){-l_normmix(theta = theta, mu1 = mu_1, mu2 = mu_2, sigma2_1 = sigma_1^2, sigma2_2 = sigma_2^2, y = y_1, x=x)})
+      fn = function(theta){-l_normmix(theta = theta, mu1 = mu_1,
+                                      mu2 = mu_2,sigma2_1 = sigma_1^2,
+                                      sigma2_2 = sigma_2^2, y = y_1, x=x)})
 @
 
 <<results='markup'>>=
@@ -386,8 +414,11 @@ Nota-se que as estimativas, em termos numéricos, não diferem substancialmente 
 
 # Objective funciton
 l_gamma <- function(theta, a, b, y, x){
-  if(prod(y - theta[1] - theta[2]*x > 0)){ # Checking whether u_i > 0 \forall i = 1, ..., n
-    return(length(y)*log(b^a/gamma(a)) + (a-1)*sum(log(y - theta[1] - theta[2]*x)) - b*sum(y - theta[1] - theta[2] * x))
+  if(prod(y - theta[1] - theta[2]*x > 0)){ # Checking whether u_i > 0
+    # \forall i = 1, ..., n
+    return(length(y)*log(b^a/gamma(a)) +
+             (a-1)*sum(log(y - theta[1] - theta[2]*x)) -
+             b*sum(y - theta[1] - theta[2] * x))
   }else{
     return(-Inf)
     }
@@ -399,7 +430,8 @@ l_gamma <- function(theta, a, b, y, x){
 # So I'll be subtracting 1
 
 mod2_true <- optim(par = init_gamma[-3]-1,
-      fn = function(theta){-l_gamma(theta = theta, a = a, b = b, y = y_2, x = x)})
+      fn = function(theta){-l_gamma(theta = theta, a = a,
+                                    b = b, y = y_2, x = x)})
 @
 
 <<results='markup'>>=
@@ -411,7 +443,8 @@ print(mod2_true$par)
 
 # Objective funciton
 l_t <- function(theta, y, x){
-  length(y)*(log(gamma((theta[3]+1)/2)) - log(sqrt(theta[3]*pi)) - log(gamma(theta[3]/2))) -
+  length(y)*(log(gamma((theta[3]+1)/2)) - log(sqrt(theta[3]*pi)) -
+               log(gamma(theta[3]/2))) -
     (theta[3]+1)/2*sum(log(1 + ((y - theta[1] - theta[2]*x)^2)/theta[3]))
 }
 
@@ -438,13 +471,15 @@ plot_curves <- function(...){
                 color = 'grey',
                 linewidth = 1) +
     geom_abline(slope = eval(parse(text = paste0('mod', ..., '_true$par[2]'))),
-                intercept = eval(parse(text =paste0('mod', ..., '_true$par[1]'))),
+                intercept = eval(parse(text =paste0('mod', ...,
+                                                    '_true$par[1]'))),
                 linetype = 'dashed',
                 color = purple_rain_colors[1],
                 linewidth = 1,
                 alpha = .75) +
     geom_abline(slope = eval(parse(text = paste0('mod', ..., '_norm$par[2]'))),
-                intercept = eval(parse(text = paste0('mod', ..., '_norm$par[1]'))),
+                intercept = eval(parse(text = paste0('mod', ...,
+                                                     '_norm$par[1]'))),
                 linetype = 'solid',
                 color = purple_rain_colors[1],
                 linewidth = 1,
