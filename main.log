@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.4.27)  17 MAY 2023 23:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.4.27)  20 MAY 2023 13:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1194,13 +1194,33 @@ File: figure/Simul3-1.pdf Graphic file (type pdf)
 <use figure/Simul3-1.pdf>
 Package pdftex.def Info: figure/Simul3-1.pdf  used on input line 324.
 (pdftex.def)             Requested size: 265.59523pt x 265.59622pt.
+ [5 <./figure/Simul2-1.pdf>]
+<figure/AllModels-1.pdf, id=147, 505.89pt x 505.89pt>
+File: figure/AllModels-1.pdf Graphic file (type pdf)
+<use figure/AllModels-1.pdf>
+Package pdftex.def Info: figure/AllModels-1.pdf  used on input line 360.
+(pdftex.def)             Requested size: 265.59523pt x 265.59622pt.
+<figure/AllModels-2.pdf, id=148, 505.89pt x 505.89pt>
+File: figure/AllModels-2.pdf Graphic file (type pdf)
+<use figure/AllModels-2.pdf>
+Package pdftex.def Info: figure/AllModels-2.pdf  used on input line 361.
+(pdftex.def)             Requested size: 265.59523pt x 265.59622pt.
+<figure/AllModels-3.pdf, id=149, 505.89pt x 505.89pt>
+File: figure/AllModels-3.pdf Graphic file (type pdf)
+<use figure/AllModels-3.pdf>
+Package pdftex.def Info: figure/AllModels-3.pdf  used on input line 362.
+(pdftex.def)             Requested size: 265.59523pt x 265.59622pt.
 
 
 LaTeX Font Warning: Font shape `OMS/lmtt/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbraceleft' on input line 335.
+(Font)              for symbol `textbraceleft' on input line 373.
 
-[5 <./figure/Simul2-1.pdf>] [6 <./figure/Simul3-1.pdf>] [7]
+
+Underfull \vbox (badness 1629) has occurred while \output is active []
+
+ [6 <./figure/Simul3-1.pdf>] [7 <./figure/AllModels-1.pdf> <./figure/AllModels-
+2.pdf> <./figure/AllModels-3.pdf>] [8] [9]
 
 ! LaTeX Error: Something's wrong--perhaps a missing \item.
 
@@ -1208,7 +1228,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.518 ....922, 0.922}\color{fgcolor}\begin{kframe}
+l.556 ....922, 0.922}\color{fgcolor}\begin{kframe}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1220,45 +1240,51 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.519 \begin{alltt}
+l.557 \begin{alltt}
                    
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-[8] [9]
-<figure/curves-1.pdf, id=186, 505.89pt x 505.89pt>
-File: figure/curves-1.pdf Graphic file (type pdf)
-<use figure/curves-1.pdf>
-Package pdftex.def Info: figure/curves-1.pdf  used on input line 665.
+[10] [11]
+<figure/compartativo-1.pdf, id=225, 505.89pt x 505.89pt>
+File: figure/compartativo-1.pdf Graphic file (type pdf)
+<use figure/compartativo-1.pdf>
+Package pdftex.def Info: figure/compartativo-1.pdf  used on input line 703.
 (pdftex.def)             Requested size: 180.67224pt x 180.67676pt.
-<figure/curves-2.pdf, id=187, 505.89pt x 505.89pt>
-File: figure/curves-2.pdf Graphic file (type pdf)
-<use figure/curves-2.pdf>
-Package pdftex.def Info: figure/curves-2.pdf  used on input line 666.
+<figure/compartativo-2.pdf, id=226, 505.89pt x 505.89pt>
+File: figure/compartativo-2.pdf Graphic file (type pdf)
+<use figure/compartativo-2.pdf>
+Package pdftex.def Info: figure/compartativo-2.pdf  used on input line 704.
 (pdftex.def)             Requested size: 180.67224pt x 180.67676pt.
-<figure/curves-3.pdf, id=188, 505.89pt x 505.89pt>
-File: figure/curves-3.pdf Graphic file (type pdf)
-<use figure/curves-3.pdf>
-Package pdftex.def Info: figure/curves-3.pdf  used on input line 667.
+<figure/compartativo-3.pdf, id=227, 505.89pt x 505.89pt>
+File: figure/compartativo-3.pdf Graphic file (type pdf)
+<use figure/compartativo-3.pdf>
+Package pdftex.def Info: figure/compartativo-3.pdf  used on input line 705.
 (pdftex.def)             Requested size: 180.67224pt x 180.67676pt.
 
-Overfull \hbox (11.74155pt too wide) in paragraph at lines 665--667
+Overfull \hbox (11.74155pt too wide) in paragraph at lines 703--705
  [][][][][][] 
  []
 
-(./main.bbl) [10] [11 <./figure/curves-1.pdf> <./figure/curves-2.pdf> <./figure
-/curves-3.pdf>] (./main.aux)
+
+LaTeX Warning: Reference `comparativo' on page 12 undefined on input line 710.
+
+(./main.bbl) [12 <./figure/compartativo-1.pdf> <./figure/compartativo-2.pdf> <.
+/figure/compartativo-3.pdf>] (./main.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 19EA40ADD4EEE69FAFECDD077F6C5431;1379.
+(rerunfilecheck)             Checksum: FEFC52D593A4037F84370FC85D92BB68;1379.
  ) 
 Here is how much of TeX's memory you used:
- 25522 strings out of 478287
- 464254 string characters out of 5849289
- 768248 words of memory out of 5000000
- 43023 multiletter control sequences out of 15000+600000
+ 25562 strings out of 478287
+ 465412 string characters out of 5849289
+ 768577 words of memory out of 5000000
+ 43055 multiletter control sequences out of 15000+600000
  534119 words of font info for 89 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  85i,18n,91p,699b,574s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1283,10 +1309,10 @@ mf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk
 10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb></usr/share/texmf/fon
 ts/type1/public/lm/lmtti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
 c/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (11 pages, 801448 bytes).
+Output written on main.pdf (12 pages, 902087 bytes).
 PDF statistics:
- 356 PDF objects out of 1000 (max. 8388607)
- 276 compressed objects within 3 object streams
- 62 named destinations out of 1000 (max. 500000)
- 120 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 393 PDF objects out of 1000 (max. 8388607)
+ 305 compressed objects within 4 object streams
+ 67 named destinations out of 1000 (max. 500000)
+ 135 words of extra memory for PDF output out of 10000 (max. 10000000)
 

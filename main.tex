@@ -174,9 +174,9 @@ em que $\hat{\bm{\theta}}$ é o estimador de Máxima Verossimilhança de $\bm{\t
 
 \end{enumerate}
 
-
-
 \end{tcolorbox}
+
+Sabe-se que uma condição suficiente para que valha R.2 é que o suporte da distribuição não dependa dos parâmetros. Em particular, isto não é satisfeito para o modelo 2.
 
 \renewcommand{\labelenumi}{\arabic{enumi})}
 
@@ -326,6 +326,44 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
 
 \end{knitrout}
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.922, 0.922, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{tibble}\hlstd{(y_1, e)} \hlopt{%>%}
+  \hlkwd{pivot_longer}\hlstd{(}\hlkwc{cols} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{'y_1'}\hlstd{,} \hlstr{'e'}\hlstd{))} \hlopt{%>%}
+  \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= value,} \hlkwc{group} \hlstd{= name))} \hlopt{+}
+    \hlkwd{geom_histogram}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{y} \hlstd{=} \hlkwd{after_stat}\hlstd{(density),} \hlkwc{fill} \hlstd{= name),}
+                   \hlkwc{alpha} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{position} \hlstd{=} \hlstr{'identity'}\hlstd{,}
+                   \hlkwc{binwidth} \hlstd{=} \hlnum{0.5}\hlstd{,} \hlkwc{color} \hlstd{=} \hlstr{'black'}\hlstd{)} \hlopt{+}
+  \hlkwd{labs}\hlstd{(}\hlkwc{fill} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{x} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{y} \hlstd{=} \hlstr{''}\hlstd{)} \hlopt{+}
+  \hlkwd{scale_fill_manual}\hlstd{(}\hlkwc{values} \hlstd{= purple_rain_colors[}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{3}\hlstd{)])}
+
+\hlkwd{tibble}\hlstd{(y_2, u)} \hlopt{%>%}
+  \hlkwd{pivot_longer}\hlstd{(}\hlkwc{cols} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{'y_2'}\hlstd{,} \hlstr{'u'}\hlstd{))} \hlopt{%>%}
+  \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= value,} \hlkwc{group} \hlstd{= name))} \hlopt{+}
+    \hlkwd{geom_histogram}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{y} \hlstd{=} \hlkwd{after_stat}\hlstd{(density),} \hlkwc{fill} \hlstd{= name),}
+                   \hlkwc{alpha} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{position} \hlstd{=} \hlstr{'identity'}\hlstd{,}
+                   \hlkwc{binwidth} \hlstd{=} \hlnum{0.5}\hlstd{,} \hlkwc{color} \hlstd{=} \hlstr{'black'}\hlstd{)} \hlopt{+}
+  \hlkwd{labs}\hlstd{(}\hlkwc{fill} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{x} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{y} \hlstd{=} \hlstr{''}\hlstd{)} \hlopt{+}
+  \hlkwd{scale_fill_manual}\hlstd{(}\hlkwc{values} \hlstd{= purple_rain_colors[}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{3}\hlstd{)])}
+
+\hlkwd{tibble}\hlstd{(y_3, v)} \hlopt{%>%}
+  \hlkwd{pivot_longer}\hlstd{(}\hlkwc{cols} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{'y_3'}\hlstd{,} \hlstr{'v'}\hlstd{))} \hlopt{%>%}
+  \hlkwd{ggplot}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= value,} \hlkwc{group} \hlstd{= name))} \hlopt{+}
+    \hlkwd{geom_histogram}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{y} \hlstd{=} \hlkwd{after_stat}\hlstd{(density),} \hlkwc{fill} \hlstd{= name),}
+                   \hlkwc{alpha} \hlstd{=} \hlnum{.8}\hlstd{,} \hlkwc{position} \hlstd{=} \hlstr{'identity'}\hlstd{,}
+                   \hlkwc{binwidth} \hlstd{=} \hlnum{0.5}\hlstd{,} \hlkwc{color} \hlstd{=} \hlstr{'black'}\hlstd{)} \hlopt{+}
+  \hlkwd{labs}\hlstd{(}\hlkwc{fill} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{x} \hlstd{=} \hlstr{''}\hlstd{,} \hlkwc{y} \hlstd{=} \hlstr{''}\hlstd{)} \hlopt{+}
+  \hlkwd{scale_fill_manual}\hlstd{(}\hlkwc{values} \hlstd{= purple_rain_colors[}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{3}\hlstd{)])}
+\end{alltt}
+\end{kframe}\begin{figure}
+\subfloat[$y_1$ e $e$\label{fig:AllModels-1}]{\includegraphics[width=.49\linewidth]{figure/AllModels-1} }
+\subfloat[$y_2$ e $u$\label{fig:AllModels-2}]{\includegraphics[width=.49\linewidth]{figure/AllModels-2} }\newline
+\subfloat[$y_3$ e $v$\label{fig:AllModels-3}]{\includegraphics[width=.49\linewidth]{figure/AllModels-3} }\caption[Distribuições dos $y_i$`s e respectivas inovações]{Distribuições dos $y_i$`s e respectivas inovações}\label{fig:AllModels}
+\end{figure}
+
+\end{knitrout}
+
 \section{Estatísticas descritivas}
 
 \begin{kframe}
@@ -341,7 +379,7 @@ Em seguida, simulamos os três processos de geração de dados. Para obter a mis
       \hlkwc{sanitize.text.function}\hlstd{=}\hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{)\{x\},} \hlkwc{include.rownames} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 \end{alltt}
 \end{kframe}% latex table generated in R 4.1.2 by xtable 1.8-4 package
-% Wed May 17 23:51:37 2023
+% Sat May 20 13:47:41 2023
 \begin{table}[ht]
 \centering
 \begin{tabular}{lrrrrrrr}
@@ -502,9 +540,9 @@ A estimativa para $\beta_1$ se aproxima razoavelmente do parâmetro populacional
 \end{kframe}
 \end{knitrout}
 
-A estimativa para $\bm{\beta}$ difere substancialmente do parâmetro populacional. Não é possível comparar $\hat{\sigma^2}$ com $\mathbb{V}[u_i]$ pois esta não é definida.
+A estimativa para $\bm{\beta}$ difere substancialmente do parâmetro populacional. Notavelmente, o intercepto é numericamente maior, e o parâmetro de inclinação é negativo. Por fim, não é possível comparar $\hat{\sigma^2}$ com $\mathbb{V}[u_i]$ pois esta não é definida.
 
-\item Considerando estimação por Máxima Verossimilhança, pode-se considerar conduzir os testes baseados em Máxima Verossimilhança LR, LM e Wald, assumindo que os modelos satisfaçam as Condições de Regularidade.
+\item Considerando estimação por Máxima Verossimilhança, pode-se considerar conduzir os testes baseados em Máxima Verossimilhança LR, LM e Wald, desde que os modelos satisfaçam as Condições de Regularidade.
 
 \end{enumerate}
 
@@ -662,12 +700,14 @@ Nota-se que as estimativas, em termos numéricos, não diferem substancialmente 
 \hlkwd{invoke_map}\hlstd{(}\hlkwc{.f} \hlstd{= plot_curves,} \hlkwc{.x} \hlstd{=} \hlnum{1}\hlopt{:}\hlnum{3}\hlstd{)}
 \end{alltt}
 \end{kframe}\begin{figure}
-\subfloat[Modelo 1\label{fig:curves-1}]{\includegraphics[width=.33333333\linewidth]{figure/curves-1} }
-\subfloat[Modelo 2\label{fig:curves-2}]{\includegraphics[width=.33333333\linewidth]{figure/curves-2} }
-\subfloat[Modelo 3\label{fig:curves-3}]{\includegraphics[width=.33333333\linewidth]{figure/curves-3} }\caption[Comparativo]{Comparativo}\label{fig:curves}
+\subfloat[Modelo 1\label{fig:compartativo-1}]{\includegraphics[width=.33333333\linewidth]{figure/compartativo-1} }
+\subfloat[Modelo 2\label{fig:compartativo-2}]{\includegraphics[width=.33333333\linewidth]{figure/compartativo-2} }
+\subfloat[Modelo 3\label{fig:compartativo-3}]{\includegraphics[width=.33333333\linewidth]{figure/compartativo-3} }\caption[Comparativo]{Comparativo}\label{fig:compartativo}
 \end{figure}
 
 \end{knitrout}
+
+Na Figura \ref{comparativo}, as retas de regressão tracejadas representam as estimativas do Exercício 4, enquanto as retas sólidas representam as estimativas obtidas no Exercício 2. Cabe resultar que a escala dos dados para o modelo 3 omite a incoerência das estimativas supondo-se distribuição gaussiana em relação aos parâmetros verdadeiros,
 
 \end{enumerate}
 

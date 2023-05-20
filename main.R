@@ -72,6 +72,33 @@ v = rt(n = n, df = 1)
 
 y_3 = beta[1] + beta[2] * x + v
 
+tibble(y_1, e) %>%
+  pivot_longer(cols = c('y_1', 'e')) %>%
+  ggplot(aes(x = value, group = name)) +
+  geom_histogram(aes(y = after_stat(density), fill = name),
+                 alpha = .8, position = 'identity',
+                 binwidth = 0.5, color = 'black') +
+  labs(fill = '', x = '', y = '') +
+  scale_fill_manual(values = purple_rain_colors[c(1,3)])
+
+tibble(y_2, u) %>%
+  pivot_longer(cols = c('y_2', 'u')) %>%
+  ggplot(aes(x = value, group = name)) +
+  geom_histogram(aes(y = after_stat(density), fill = name),
+                 alpha = .8, position = 'identity',
+                 binwidth = 0.5, color = 'black') +
+  labs(fill = '', x = '', y = '') +
+  scale_fill_manual(values = purple_rain_colors[c(1,3)])
+
+tibble(y_3, v) %>%
+  pivot_longer(cols = c('y_3', 'v')) %>%
+  ggplot(aes(x = value, group = name)) +
+  geom_histogram(aes(y = after_stat(density), fill = name),
+                 alpha = .8, position = 'identity',
+                 binwidth = 0.5, color = 'black') +
+  labs(fill = '', x = '', y = '') +
+  scale_fill_manual(values = purple_rain_colors[c(1,3)])
+
 rbind(
   tibble(y = y_1, x = x, group = 'Modelo 1'),
   tibble(y = y_2, x = x, group = 'Modelo 2'),
